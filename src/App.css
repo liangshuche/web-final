@@ -1,0 +1,122 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.section1 {
+  height: 60px;
+  border-bottom: 3px solid gray;
+}
+.section2 {
+  height: calc(100vh - 100px);
+}
+.bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 0px 10px;
+}
+.icon {
+  border-right: 3px solid gray;
+}
+
+.contact-list {
+  border-right: 3px solid gray;
+  overflow-y: scroll;
+  height: calc(100vh - 100px);
+}
+
+.btn-contact {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.Message-to {
+  margin-bottom: 20px;
+  text-align: right;
+  color: lightblue;
+}
+
+.Message-to-box {
+  display: inline-block;
+  border: solid 2px lightblue;
+  border-radius: 10px;
+  padding: 3px 6px;
+  word-wrap: break-word;
+}
+
+.Message-from {
+  margin-bottom: 20px;
+  text-align: left;
+  color: lightpink;
+}
+
+.Message-from-box {
+  display: inline-block;
+  word-wrap: break-word;
+  border: solid 2px lightpink;
+  border-radius: 10px;
+  padding: 3px 6px;
+  word-wrap: break-word;
+}
+
+.chat-log {
+  height: calc(100vh - 160px);
+  position: absolute;
+  overflow-y: scroll;
+  display: block;
+  font-size: 22px;
+  padding: 20px 10px 0px 10px;
+}
+.input-box {
+  font-size: 22px;
+  height: 45px;
+  resize: none;
+  word-wrap: break-word;
+}
+
+.input-group {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.btn:active::focus {
+  outline: 0px;
+}
+
+
+.card {
+  min-height: 300px;
+  min-width: 300px;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.container-scroll {
+  overflow-x: auto;
+}

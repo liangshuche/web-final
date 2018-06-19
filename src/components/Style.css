@@ -1,0 +1,16 @@
+.card {
+    min-width: 300px;
+    max-width: 300px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+.container-scroll {
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.custom-input {
+    border: 10px;
+    border-color: black;
+    background: gray;
+}
