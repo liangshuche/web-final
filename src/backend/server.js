@@ -1,13 +1,15 @@
 const express = require('express');
-const socket = require('socket.io');
+//const socket = require('socket.io');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const app = express();
 
-// require bady-parser for parsing from data
-var bodyParser = require('body-parser');
+app.use(cors());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
-}))
+}));
 
 mongoose.Promise = global.Promise;
 //mongoose.connect('mongodb://admin:a12345@ds159100.mlab.com:59100/web-blog');
@@ -31,16 +33,78 @@ const Posts = mongoose.model('Posts', postsSchema);
 var TestPost = new Posts({
     user: "Kamehameha",
     title: "Havana",
-    content: "Do it now Gohan!"
+    content: "Do it now Gohan!",
     time: '1997/08/31'
 })
 
 console.log(TestPost);
 
+const userList = [
+	{ account: 'admin', password: '123' , age: '20'},
+	{ acocunt: 'tony' , password: '123', age: '21'}
+];
+const rice = {
+	name: 'rice',
+	price: 100,
+}
+
+const meat = {
+	name: 'meat',
+	price: 10,
+}
+
+const coke = {
+	name: 'coke',
+	price: 1000,
+}
+
+const shop1 = {
+	name:'活大自助餐',
+	rate: 0.5,
+	img: 'https://uploadfile.huiyi8.com/2015/1201/20151201054035448.jpg',
+	food: [rice, meat],
+}
+
+const shop2 = {
+	name: '胖老爹',
+	rate: 5,
+	img: 'https://picdn.gomaji.com/products/918/182918/182918_1_1_r.jpg',
+	food: [meat, coke],
+}
+
+const shoplist = [shop1, shop2];
+
+
+
 app.get('/', function(req, res){
-    res.redirect('/todos')
+    res.send(shoplist);
 })
 
+app.post('/login', function(req, res){
+	let user = userList.find(function(e) {
+		return e.account === req.body.account;
+	  });
+	if (user && user.password === req.body.password) {
+		console.log(user.account + ' log in')
+		res.send({ valid: true });
+	}
+	else {
+		res.send({ valid: false});
+	}
+})
+
+app.get('/shop', function(req, res){
+	let shop = shoplist.find(function(e) {
+		return e.name === req.query.shopname
+	})
+	if (shop) {
+		res.send(shop.food);
+	}
+	else {
+		res.send('error');
+	}
+})
+/*
 app.get('/todos', function(req, res){
   Posts.find(function(err, posts) {
     if(err) return console.error(err);
@@ -69,16 +133,16 @@ app.post('/todos', function(req, res) {
   // return json of post
   res.json(post);
 })
-
+*/
 //
 
 const server = app.listen(5000, () => {
   	console.log('server is running on port 5000');
 });
-/*
-const io = socket(server);
 
-*/
+//const io = socket(server);
+
+
 /*
 const userList = [
 	  { username: 'admin', password: '123' , age: '20'},

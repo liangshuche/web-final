@@ -22,8 +22,9 @@ class NavBar extends Component {
         if ( this.props.login ) {
             navBar_left = 
                 <div class='navbar-nav ml-auto'>
-                    <Link to={'/user/'+this.props.username+'/cart'}><a class="nav-item nav-link" >Cart</a></Link>                            
-                    <Link to='/'><a class="nav-item nav-link" onClick={this.handleLogout} >{this.props.username} - Logout</a></Link>
+                    <Link to={'/user/'+this.props.account+'/cart'}><a class="nav-item nav-link" >Cart</a></Link>                            
+                    <Link to={'/user/'+this.props.account+'/account'}><a class="nav-item nav-link" >{this.props.account}</a></Link>  
+                    <Link to='/'><a class="nav-item nav-link" onClick={this.props.handleLogout} >Logout</a></Link>
                 </div>
             } else {
             navBar_left = 
@@ -34,7 +35,7 @@ class NavBar extends Component {
 
         return (
             <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-                <a style={brandStyle} class="navbar-brand">Everyone's Blog</a>
+                <a style={brandStyle} class="navbar-brand">EEat</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>

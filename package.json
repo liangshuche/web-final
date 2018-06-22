@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "jquery": "^3.3.1",
     "mongoose": "^5.1.4",
@@ -16,7 +18,8 @@
     "socket.io-client": "^2.1.1"
   },
   "scripts": {
-    "start": "node src/backend/server.js & react-scripts start",
+    "start": "react-scripts start",
+    "start-all": "nodemon src/backend/server.js & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

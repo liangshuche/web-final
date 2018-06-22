@@ -22,36 +22,38 @@ class App extends React.Component {
     super(props);
     this.state = {
       login: false,
-      username: '',
+      acocunt: '',
     };
 
     this.socket = io('localhost:5000');
+    
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+  handleLogin(e) {
+    this.setState({
+      login: e.login,
+      account: e.account,
+    })
+  }
 
-    this.socket.on('RECEIVE_LOGIN', (data) => {
-      this.setState({
-        login: true,
-        username: data,
-      });
-    });
-
-    this.socket.on('RECEIVE_LOGOUT', () => {
-      this.setState({
-        login: false,
-        username: '',
-      });
-    });
+  handleLogout() {
+    this.setState({
+      login: false,
+      account: '',
+    })
   }
 
 
   render() {
     const MyNavBar = (props) => {
       return (
-        <NavBar login={this.state.login} username={this.state.username} socket={this.socket}/>
+        <NavBar login={this.state.login} account={this.state.account} handleLogout={this.handleLogout}/>
       );
     }
     const MyLoginPage = (props) => {
       return (
-        <LoginPage socket={this.socket}/>
+        <LoginPage handleLogin={this.handleLogin} socket={this.socket}/>
       );
     } 
     const MyRegisterPage = (props) => {
@@ -63,7 +65,7 @@ class App extends React.Component {
       return (
         <div>
           <PostList socket={this.socket}/>
-          <HomePage login={this.state.login} username={this.state.username} socket={this.socket}/>
+          <HomePage login={this.state.login} username={this.state.username} />
         </div>
       );
     }
@@ -124,7 +126,7 @@ class App extends React.Component {
           <Route path='/shop/:shop' render={MyShopPage}/>
           <Route exact path='/user/:account/cart' render={MyCartPage}/>
           <Route exact path='/user/:account/account' render={MyAccountPage}/>
-          <Route exact path='/user/:account/:order' render={MyOrderPage}/>
+          <Route exact path='/user/:account/order/:order' render={MyOrderPage}/>
           <Route exact path='/user/:account/:order/rate' render={MyRatePage}/>
           <Route exact path='/newpost' render={MyPostPage}/>
           <Route path='/post/:_id' render={MyContentPage}/>
