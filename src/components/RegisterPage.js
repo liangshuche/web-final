@@ -7,10 +7,14 @@ class RegisterPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            usernameClass: '',
+            account: '',
+            accountClass: '',
             password: '',
             passwordClass: '',
+            firstname: '',
+            firstnameClass: '',
+            lastname: '',
+            lastnameClass: '',
             age: '',
             ageClass: '',
             redirect: false,
@@ -28,20 +32,22 @@ class RegisterPage extends Component {
             this.setState({ redirect: true });
         })
 
-        this.handleUsernameChange = this.handleUsernameChange.bind(this);
+        this.handleAccountChange = this.handleAccountChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
+        this.handleLastnameChange = this.handleLastnameChange.bind(this);
         this.handleAgeChange = this.handleAgeChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
     }
-    handleUsernameChange(ev) {
+    handleAccountChange(ev) {
         if( ev.target.value.length > 1 && ev.target.value.length < 21 ){
-            this.setState({ usernameClass: 'is-valid'});
+            this.setState({ accountClass: 'is-valid'});
         }
         else {
-            this.setState({ usernameClass: 'is-invalid'});
+            this.setState({ accountClass: 'is-invalid'});
         }
-        this.setState({ username: ev.target.value });
+        this.setState({ account: ev.target.value });
     }
 
     handlePasswordChange(ev) {
@@ -62,6 +68,25 @@ class RegisterPage extends Component {
             this.setState({ ageClass: 'is-invalid'});
         }
         this.setState({ age: ev.target.value });
+    }
+    handleFirstnameChange(ev) {
+        if( ev.target.value.length > 1 && ev.target.value.length < 21 ){
+            this.setState({ firstnameClass: 'is-valid'});
+        }
+        else {
+            this.setState({ firstnameClass: 'is-invalid'});
+        }
+        this.setState({ firstname: ev.target.value });
+    }
+
+    handleLastnameChange(ev) {
+        if( ev.target.value.length > 1 && ev.target.value.length < 21 ){
+            this.setState({ lastnameClass: 'is-valid'});
+        }
+        else {
+            this.setState({ lastnameClass: 'is-invalid'});
+        }
+        this.setState({ lastname: ev.target.value });
     }
     handleSubmit(ev) {
         ev.preventDefault()
@@ -113,14 +138,24 @@ class RegisterPage extends Component {
                     <br/>
                     <form>
                         <div class="form-group">
-                            <label for="Account">Username</label>
-                            <input type="text" className={"form-control " + this.state.usernameClass} id="account" value={this.state.username} onChange={this.handleUsernameChange}/>
+                            <label for="Account">Account</label>
+                            <input type="text" className={"form-control " + this.state.accountClass} id="account" value={this.state.account} onChange={this.handleAccountChange}/>
                             <div class="invalid-feedback">Username must contain 2~20 characters</div>
                         </div>
                         <div class="form-group">
                             <label for="Password">Password</label>
                             <input type="password" className={"form-control " + this.state.passwordClass} id="password" value={this.state.password} onChange={this.handlePasswordChange}/>
                             <div class="invalid-feedback">Password must contain 2~20 characters</div>                            
+                        </div>
+                        <div class="form-group">
+                            <label for="First-name">First Name</label>
+                            <input type="text" className={"form-control " + this.state.firstnameClass} id="firstname" value={this.state.firstname} onChange={this.handleFirstnameChange}/>
+                            <div class="invalid-feedback">First Name must contain 2~20 characters</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Last-name">Last Name</label>
+                            <input type="text" className={"form-control " + this.state.lastnameClass} id="lastname" value={this.state.lastname} onChange={this.handleLastnameChange}/>
+                            <div class="invalid-feedback">Last Name must contain 2~20 characters</div>
                         </div>
                         <div class="form-group">
                             <label for="Password">Age</label>

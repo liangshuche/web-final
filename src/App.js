@@ -10,9 +10,12 @@ import AboutPage from './components/AboutPage';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import PostPage from './components/PostPage';
-import LogoutPage from './components/LogoutPage';
 import ContentPage from './components/ContentPage';
-
+import ShopPage from './components/ShopPage';
+import CartPage from './components/CartPage';
+import AccountPage from './components/AccountPage';
+import RatePage from './components/RatePage';
+import OrderPage from './components/OrderPage';
 
 class App extends React.Component {
   constructor(props) {
@@ -80,6 +83,36 @@ class App extends React.Component {
       );
     }
 
+    const MyShopPage = (props) => {
+      return (
+        <ShopPage _shop={props.match.params.shop}/>
+      )
+    }
+
+    const MyCartPage = (props) => {
+      return (
+        <CartPage _account={props.match.params.account}/>
+      )
+    }
+
+    const MyAccountPage = (props) => {
+      return (
+        <AccountPage _account={props.match.params.account}/>
+      )
+    }
+
+    const MyRatePage = (props) => {
+      return (
+        <RatePage _account={props.match.params.account} _order={props.match.params.order}/>
+      )
+    }
+
+    const MyOrderPage = (props) => {
+      return (
+        <OrderPage _account={props.match.params.account} _order={props.match.params.order}/>
+      )
+    }
+
     return (
       <BrowserRouter>
         <div>
@@ -88,6 +121,11 @@ class App extends React.Component {
           <Route path='/about' component={AboutPage}/>
           <Route path='/login' render={MyLoginPage}/>
           <Route path='/register' render={MyRegisterPage}/>
+          <Route path='/shop/:shop' render={MyShopPage}/>
+          <Route exact path='/user/:account/cart' render={MyCartPage}/>
+          <Route exact path='/user/:account/account' render={MyAccountPage}/>
+          <Route exact path='/user/:account/:order' render={MyOrderPage}/>
+          <Route exact path='/user/:account/:order/rate' render={MyRatePage}/>
           <Route exact path='/newpost' render={MyPostPage}/>
           <Route path='/post/:_id' render={MyContentPage}/>
         </div>

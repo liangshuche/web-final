@@ -69,7 +69,7 @@ class LoginPage extends Component {
                     <br/>
                     <form>
                         <div class="form-group">
-                            <label >Username</label>
+                            <label >Account</label>
                             <input type="text" class="form-control" id="account" value={this.state.username} onChange={this.handleUsernameChange}/>
                         </div>
                         <div class="form-group">
