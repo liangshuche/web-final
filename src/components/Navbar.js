@@ -35,14 +35,15 @@ class NavBar extends Component {
 
         return (
             <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-                <Link to='/'><a style={brandStyle} class="navbar-brand">EEat</a></Link>
+                <a style={brandStyle} class="navbar-brand">EEat</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
+                    <Link to='/'><a class="nav-item nav-link" >Home</a></Link>
                     <Link to='/about'><a class="nav-item nav-link" >About</a></Link>
-                    <Link to='/newpost'><a class="nav-item nav-link" >Account</a></Link>
+                    <Link to='/newpost'><a class="nav-item nav-link" >Post</a></Link>
                 </div>
                 {navBar_left}
             </div>

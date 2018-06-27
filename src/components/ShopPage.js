@@ -3,6 +3,7 @@ import axios from 'axios';
 class ShopPage extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props.account);
         this.state={
             account: this.props.account,
             shopname: this.props.shop,
@@ -79,7 +80,7 @@ class FoodList extends Component {
     }
   
     render() {
-        if (this.state.account !== ''){
+        if (this.state.account){
             return (
                 <div>
                     <span>Name: {this.props.name} Price: {this.props.price}</span>
