@@ -40,8 +40,8 @@ var TestPost = new Posts({
 console.log(TestPost);
 
 const userList = [
-	{ account: 'admin', password: '123' , age: '20'},
-	{ acocunt: 'tony' , password: '123', age: '21'}
+	{ account: 'admin', password: '123' , age: '20', cart: []},
+	{ acocunt: 'tony' , password: '123', age: '21', cart: []}
 ];
 const rice = {
 	name: 'rice',
@@ -103,6 +103,23 @@ app.get('/shop', function(req, res){
 	else {
 		res.send('error');
 	}
+})
+
+app.post('/addtocart', function(req, res){
+	let account = userList.find(function(e) {
+		return e.name === req.body.account
+	})
+	if (account) {
+		account.cart.push({
+			food: req.body.food,
+			price: req.body.price,
+			quantity: req.body.quantity,
+		})
+	}
+	else {
+		res.send('error')
+	}
+	console.log(account);
 })
 /*
 app.get('/todos', function(req, res){

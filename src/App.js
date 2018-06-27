@@ -87,7 +87,7 @@ class App extends React.Component {
 
     const MyShopPage = (props) => {
       return (
-        <ShopPage _shop={props.match.params.shop}/>
+        <ShopPage shop={props.match.params.shop} account={this.state.account}/>
       )
     }
 
