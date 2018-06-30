@@ -103,15 +103,15 @@ class App extends React.Component {
       )
     }
 
-    const MyRatePage = (props) => {
+    const MyOrderPage = (props) => {
       return (
-        <RatePage _account={props.match.params.account} _order={props.match.params.order}/>
+        <OrderPage account={this.state.account} id={props.match.params.order}/>
       )
     }
 
-    const MyOrderPage = (props) => {
+    const MyRatePage = (props) => {
       return (
-        <OrderPage _account={props.match.params.account} _order={props.match.params.order}/>
+        <RatePage account={this.state.account} id={props.match.params.order}/>
       )
     }
 

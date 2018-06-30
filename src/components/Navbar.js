@@ -23,7 +23,7 @@ class NavBar extends Component {
             navBar_left = 
                 <div class='navbar-nav ml-auto'>
                     <Link to={'/cart'}><a class="nav-item nav-link" >Cart</a></Link>                            
-                    <Link to={'/user/'+this.props.account+'/account'}><a class="nav-item nav-link" >{this.props.account}</a></Link>  
+                    <Link to={'/account'}><a class="nav-item nav-link" >{this.props.account}</a></Link>  
                     <Link to='/'><a class="nav-item nav-link" onClick={this.props.handleLogout} >Logout</a></Link>
                 </div>
             } else {
@@ -43,7 +43,6 @@ class NavBar extends Component {
                 <div class="navbar-nav">
                     <Link to='/'><a class="nav-item nav-link" >Home</a></Link>
                     <Link to='/about'><a class="nav-item nav-link" >About</a></Link>
-                    <Link to='/newpost'><a class="nav-item nav-link" >Post</a></Link>
                 </div>
                 {navBar_left}
             </div>

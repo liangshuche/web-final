@@ -23,7 +23,9 @@ class CartPage extends Component {
     }
     handleOnClick(){
         axios.get('http://localhost:5000/checkout', {
-            account: this.props.account,
+            params: {
+                account: this.props.account,
+            }
         })
         .then((res) => {
             if (res.data.success === true){

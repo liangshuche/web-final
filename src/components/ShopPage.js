@@ -53,7 +53,7 @@ class FoodList extends Component {
     }
     handleClick() {
         axios.post('http://localhost:5000/addtocart', {
-            acoount: this.state.account,
+            account: this.state.account,
             food: this.props.name,
             price: this.props.price,
             quantity: this.state.quantity

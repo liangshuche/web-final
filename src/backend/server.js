@@ -71,7 +71,6 @@ const shoplist = [shop1, shop2];
 app.get('/', function(req, res){
 	connection.db.collection("shops", function(err, collection) {
 		collection.find({}).toArray(function(err, data) {
-			console.log(data);
 			res.send(data);
     	})
 	})
@@ -104,7 +103,7 @@ app.get('/shop', function(req, res){
 
 app.post('/addtocart', function(req, res){
 	let account = userList.find(function(e) {
-		return e.name === req.body.account
+		return e.account === req.body.account
 	})
 	if (account) {
 		account.cart.push({
@@ -138,8 +137,13 @@ app.get('/checkout', function(req, res){
 	})
 	console.log(account)
 	if (account) {
-		let thisorder = Object.assign({}, account.cart);
-		account.order.push(thisorder);
+		console.log(account.cart)
+		account.order.push({
+			id: (account.order.length+1).toString(),
+			content: account.cart,
+			rate: 0,
+		});
+		console.log(account.order);
 		account.cart = [];
 		res.send( {success: true} );
 	}
@@ -160,6 +164,69 @@ app.get('/account', function(req, res){
 		res.send('error')
 	}
 })
+
+app.get('/order', function(req, res){
+	let account = userList.find(function(e) {
+		return e.account === req.query.account
+	})
+	let order = account.order.find(function(e){
+		console.log(e)
+		return e.id === req.query.id
+	})
+	console.log(order);
+	if (order) {
+		res.send({
+			content: order.content,
+			rate: order.rate,
+			status: 'success',
+		})
+	}
+	else {
+		res.send('error')
+	}
+})
+
+app.get('/rate', function(req, res){
+	let account = userList.find(function(e) {
+		return e.account === req.query.account
+	})
+	let order = account.order.find(function(e){
+		console.log(e)
+		return e.id === req.query.id
+	})
+	console.log(order);
+	if (order) {
+		res.send({
+			rate: order.rate,
+			status: 'success',
+		})
+	}
+	else {
+		res.send('error')
+	}
+})
+
+app.get('/updaterate', function(req, res){
+	let account = userList.find(function(e) {
+		return e.account === req.query.account
+	})
+	let order = account.order.find(function(e){
+		console.log(e)
+		return e.id === req.query.id
+	})
+	console.log(order);
+	if (order) {
+		order.rate = req.query.rate;
+		res.send({
+			status: 'success',
+		})
+		console.log(account);
+	}
+	else {
+		res.send('error')
+	}
+})
+
 /*
 app.get('/todos', function(req, res){
   Posts.find(function(err, posts) {
