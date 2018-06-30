@@ -12,14 +12,22 @@ app.use(bodyParser.urlencoded({
 }));
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://admin:a12345@ds217921.mlab.com:17921/web-final');
+mongoose.connect('mongodb://admin:a12345@ds217921.mlab.com:17921/web_final');
 //mongoose.connect('mongodb://localhost/web_test');
 
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function(callback) {
-    console.log('connection open')
+mongoose.connect('mongodb://admin:a12345@ds217921.mlab.com:17921/web_final')
+
+var connection = mongoose.connection;
+connection.on('error', console.error.bind(console, 'connection error:'));
+connection.once('open', function(callback) {
+	console.log('connection open')
+	connection.db.collection("shops", function(err, collection) {
+		collection.find({}).toArray(function(err, data) {
+			console.log(data);
+    	})
+	})
 });
+
 
 
 
@@ -61,7 +69,12 @@ const shoplist = [shop1, shop2];
 
 
 app.get('/', function(req, res){
-    res.send(shoplist);
+	connection.db.collection("shops", function(err, collection) {
+		collection.find({}).toArray(function(err, data) {
+			console.log(data);
+			res.send(data);
+    	})
+	})
 })
 
 app.post('/login', function(req, res){
