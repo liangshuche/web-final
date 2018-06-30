@@ -12,8 +12,8 @@ app.use(bodyParser.urlencoded({
 }));
 
 mongoose.Promise = global.Promise;
-//mongoose.connect('mongodb://admin:a12345@ds159100.mlab.com:59100/web-blog');
-mongoose.connect('mongodb://localhost/web_test');
+mongoose.connect('mongodb://admin:a12345@ds217921.mlab.com:17921/web-final');
+//mongoose.connect('mongodb://localhost/web_test');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -21,27 +21,11 @@ db.once('open', function(callback) {
     console.log('connection open')
 });
 
-const postsSchema = mongoose.Schema({
-	  user: String,
-  	title: String,
-	  content: String,
-	  time: String,
-});
 
-const Posts = mongoose.model('Posts', postsSchema);
-// test object
-var TestPost = new Posts({
-    user: "Kamehameha",
-    title: "Havana",
-    content: "Do it now Gohan!",
-    time: '1997/08/31'
-})
-
-console.log(TestPost);
 
 const userList = [
-	{ account: 'admin', password: '123' , age: '20', cart: []},
-	{ acocunt: 'tony' , password: '123', age: '21', cart: []}
+	{ account: 'admin', password: '123' , age: '20', cart: [], order: []},
+	{ acocunt: 'tony' , password: '123', age: '21', cart: [], order: []}
 ];
 const rice = {
 	name: 'rice',
@@ -120,6 +104,48 @@ app.post('/addtocart', function(req, res){
 		res.send('error')
 	}
 	console.log(account);
+})
+
+app.get('/cart', function(req, res){
+	let account = userList.find(function(e) {
+		return e.account === req.query.account
+	})
+	console.log(account)
+	if (account) {
+		res.send(account.cart)
+	}
+	else {
+		res.send('error')
+	}
+})
+
+app.get('/checkout', function(req, res){
+	let account = userList.find(function(e) {
+		return e.account === req.query.account
+	})
+	console.log(account)
+	if (account) {
+		let thisorder = Object.assign({}, account.cart);
+		account.order.push(thisorder);
+		account.cart = [];
+		res.send( {success: true} );
+	}
+	else {
+		res.send('error')
+	}
+})
+
+app.get('/account', function(req, res){
+	let account = userList.find(function(e) {
+		return e.account === req.query.account
+	})
+	console.log(account)
+	if (account) {
+		res.send(account.order)
+	}
+	else {
+		res.send('error')
+	}
 })
 /*
 app.get('/todos', function(req, res){

@@ -93,13 +93,13 @@ class App extends React.Component {
 
     const MyCartPage = (props) => {
       return (
-        <CartPage _account={props.match.params.account}/>
+        <CartPage account={this.state.account}/>
       )
     }
 
     const MyAccountPage = (props) => {
       return (
-        <AccountPage _account={props.match.params.account}/>
+        <AccountPage account={this.state.account}/>
       )
     }
 
@@ -124,12 +124,10 @@ class App extends React.Component {
           <Route path='/login' render={MyLoginPage}/>
           <Route path='/register' render={MyRegisterPage}/>
           <Route path='/shop/:shop' render={MyShopPage}/>
-          <Route exact path='/user/:account/cart' render={MyCartPage}/>
-          <Route exact path='/user/:account/account' render={MyAccountPage}/>
-          <Route exact path='/user/:account/order/:order' render={MyOrderPage}/>
-          <Route exact path='/user/:account/:order/rate' render={MyRatePage}/>
-          <Route exact path='/newpost' render={MyPostPage}/>
-          <Route path='/post/:_id' render={MyContentPage}/>
+          <Route exact path='/cart' render={MyCartPage}/>
+          <Route exact path='/account' render={MyAccountPage}/>
+          <Route exact path='/account/:order' render={MyOrderPage}/>
+          <Route exact path='/account/:order/rate' render={MyRatePage}/>
         </div>
       </BrowserRouter>
     )

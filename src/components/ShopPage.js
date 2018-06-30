@@ -3,7 +3,6 @@ import axios from 'axios';
 class ShopPage extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.account);
         this.state={
             account: this.props.account,
             shopname: this.props.shop,
