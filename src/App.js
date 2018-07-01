@@ -16,7 +16,7 @@ import CartPage from './components/CartPage';
 import AccountPage from './components/AccountPage';
 import RatePage from './components/RatePage';
 import OrderPage from './components/OrderPage';
-
+import MessengerPage from './components/MessengerPage';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -115,6 +115,12 @@ class App extends React.Component {
       )
     }
 
+    const MyMessenger = (props) => {
+      return (
+        <MessengerPage account={this.state.account}/>
+      )
+    }
+
     return (
       <BrowserRouter>
         <div>
@@ -128,6 +134,7 @@ class App extends React.Component {
           <Route exact path='/account' render={MyAccountPage}/>
           <Route exact path='/account/:order' render={MyOrderPage}/>
           <Route exact path='/account/:order/rate' render={MyRatePage}/>
+          <Route exact path='/messenger' render={MyMessenger}/>
         </div>
       </BrowserRouter>
     )
