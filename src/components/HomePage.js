@@ -5,10 +5,9 @@ import axios from 'axios';
 import $ from 'jquery';
 
 //slides
-import Image from 'react-image-resizer';
-import slide1 from '../img/1.jpg'
-import slide2 from '../img/2.png'
-import slide3 from '../img/Black.png'
+import slide1 from '../img/slide1.png'
+import slide2 from '../img/slide2.png'
+import slide3 from '../img/slide3.png'
 
 class HomePage extends Component {
     constructor(props) {
@@ -31,7 +30,7 @@ class HomePage extends Component {
         var deck_1 = []
         for(let i=0; i<this.state.shops.length; ++i){
             if(i<3){
-            let shop = 
+            let shops = 
                 <div class="card">
                     <Link to={'/shop/'+this.state.shops[i].name}><img class="card-img-top" style={{ width: 200 }} src={this.state.shops[i].img}/></Link>
                     <div class="card-body">
@@ -42,11 +41,12 @@ class HomePage extends Component {
                     </div>
                 
                 </div>
-            deck_1.push(shop);}}
+            deck_1.push(shops);}}
+
         var deck_2 = []
         for(let i=3; i<this.state.shops.length; ++i){
             if(i<6){
-            let shop = 
+            let shops = 
                 <div class="card">
                     <Link to={'/shop/'+this.state.shops[i].name}><img class="card-img-top" style={{ width: 200 }} src={this.state.shops[i].img}/></Link>
                     <div class="card-body">
@@ -57,11 +57,11 @@ class HomePage extends Component {
                     </div>
                 
                 </div>
-            deck_2.push(shop);}}
+            deck_2.push(shops);}}
         
 
         return (
-            <div class="center">
+            <div>
                 <div id="slideControls" class="carousel slide container " data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
@@ -83,11 +83,13 @@ class HomePage extends Component {
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-                <div id="deck1" class="card-deck">
-                    {deck_1}
-                </div>
-                <div id="deck1" class="card-deck">
-                    {deck_2}
+                <div class='center'>
+                    <div id="deck1" class="card-deck">
+                        {deck_1}
+                    </div>
+                    <div id="deck1" class="card-deck">
+                        {deck_2}
+                    </div>
                 </div>
 
             </div>
