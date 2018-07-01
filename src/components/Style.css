@@ -1,8 +1,8 @@
 .card {
     min-width: 300px;
     max-width: 300px;
-    margin-right: 5px;
-    margin-left: 5px;
+    margin-right: auto;
+    margin-left: auto;
 }
 .container-scroll {
     margin-top: 10px;
@@ -16,4 +16,9 @@
 }
 .navbar-light {
     background-color: #bf0c0c
+}
+.center {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
 }

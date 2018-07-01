@@ -28,39 +28,69 @@ class HomePage extends Component {
     
     
     render() {
-        var _shops = []
+        var deck_1 = []
         for(let i=0; i<this.state.shops.length; ++i){
+            if(i<3){
             let shop = 
-                <div>
-                    <Link to={'/shop/'+this.state.shops[i].name}><h1>Name: {this.state.shops[i].name}</h1></Link>
-                    <h4>Rate: {this.state.shops[i].rate}</h4>
-                    <img style={{ width: 200 }} src={this.state.shops[i].img}/>
+                <div class="card">
+                    <Link to={'/shop/'+this.state.shops[i].name}><img class="card-img-top" style={{ width: 200 }} src={this.state.shops[i].img}/></Link>
+                    <div class="card-body">
+                        <h5 class="card-title">{this.state.shops[i].name}</h5>
+                    </div>
+                    <div class="card-footer">
+                            <small class="text-muted">Rate: {this.state.shops[i].rate}</small>
+                    </div>
+                
                 </div>
-            _shops.push(shop);
-        }
+            deck_1.push(shop);}}
+        var deck_2 = []
+        for(let i=3; i<this.state.shops.length; ++i){
+            if(i<6){
+            let shop = 
+                <div class="card">
+                    <Link to={'/shop/'+this.state.shops[i].name}><img class="card-img-top" style={{ width: 200 }} src={this.state.shops[i].img}/></Link>
+                    <div class="card-body">
+                        <h5 class="card-title">{this.state.shops[i].name}</h5>
+                    </div>
+                    <div class="card-footer">
+                            <small class="text-muted">Rate: {this.state.shops[i].rate}</small>
+                    </div>
+                
+                </div>
+            deck_2.push(shop);}}
+        
+
         return (
-                <div id="carouselExampleControls" class="carousel slide container col-md-8 col-md-offset-2" data-ride="carousel">
+            <div class="center">
+                <div id="slideControls" class="carousel slide container " data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <Image className=" img-responsive" src={slide1} height={600} width={800} alt="slide1"/>
+                            <img src={slide1} class="img-responsive" alt="Responsive image"/>
                         </div>
                         <div class="carousel-item">
-                            <Image className="card-img-top fixed-img" src={slide2} height={600} width={800} alt="slide1"/>
+                        <img src={slide2} class="img-responsive" alt="Responsive image"/>
                         </div>
                         <div class="carousel-item">
                             <img src={slide3} class="img-responsive" alt="Responsive image"/>
                         </div>
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <a class="carousel-control-prev" href="#slideControls" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </a>
-                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <a class="carousel-control-next" href="#slideControls" role="button" data-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
+                <div id="deck1" class="card-deck">
+                    {deck_1}
+                </div>
+                <div id="deck1" class="card-deck">
+                    {deck_2}
+                </div>
 
+            </div>
         );
     }
 }
