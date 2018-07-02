@@ -128,12 +128,13 @@ app.get('/api/home', function(req, res){
             res.send(data);
         });
     });
+    io.emit('RECEIVE_MESSAGE', {from: 'bot', message: 'hello' });
 });
 
 app.post('/api/login', function(req, res){
     let user = userList.find(function(e) {
         return e.account === req.body.account;
-      });
+    });
     if (user && user.password === req.body.password) {
         console.log(user.account + ' log in');
         res.send({ valid: true });
@@ -153,7 +154,7 @@ app.post('/api/register', function(req, res){
     });
     res.send({valid: true});
     console.log(userList);
-})
+});
 app.get('/api/shop', function(req, res){
     let shop = shoplist.find(function(e) {
         return e.name === req.query.shopname;
@@ -213,6 +214,20 @@ app.get('/api/checkout', function(req, res){
             deliver: req.query.deliver,
         });
         console.log(account.order);
+        account.cart = [];
+        res.send( {success: true} );
+    }
+    else {
+        res.send('error');
+    }
+});
+
+app.get('/api/clearcart', function(req, res){
+    let account = userList.find(function(e) {
+        return e.account === req.query.account;
+    });
+    console.log(account);
+    if (account) {
         account.cart = [];
         res.send( {success: true} );
     }
@@ -311,6 +326,12 @@ io.on('connection', (socket) => {
     socket.on('SEND_MESSAGE', (data) => {
         log.push(data);
         io.emit('RECEIVE_MESSAGE', data);
+        if (data.message === 'wtf'){
+            io.emit('RECEIVE_MESSAGE', {
+                from: 'bot',
+                message: 'whats up bro',
+            });
+        }
     });
 });
 

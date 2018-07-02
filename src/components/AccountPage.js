@@ -8,26 +8,26 @@ class AccountPage extends Component {
         this.state={
             account: this.props.account,
             orders: [],
-        }
+        };
         axios.get('/api/account', {
             params: {
                 account: this.props.account,
             }
         })
-        .then(res => {
-            this.setState({ orders: res.data });
-            console.log(res.data)
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
+            .then(res => {
+                this.setState({ orders: res.data });
+                console.log(res.data);
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
 
     }
 
     render() {
         let list = [];
         for (let i=0; i<this.state.orders.length; ++i){
-            list.push(<OrderItem order={this.state.orders[i]} />)
+            list.push(<OrderItem order={this.state.orders[i]} />);
         }
         return (
             <div>
@@ -46,7 +46,7 @@ class OrderItem extends Component {
         this.state={
             id: this.props.order.id,
             order: this.props.order.content
-        }
+        };
         this.handleOnClick = this.handleOnClick.bind(this);
     }
     handleOnClick() {
@@ -60,7 +60,7 @@ class OrderItem extends Component {
                 <div>
                     <h6>{item.quantity} X {item.food} = {item.price*item.price}</h6>
                 </div>    
-            )
+            );
         }
         return (
             <div>
@@ -68,6 +68,6 @@ class OrderItem extends Component {
                 {list}
                 <Link to={'/account/'+this.state.id} ><button className='btn btn-secondary' onClick={this.handleOnClick}>Go To Detail</button></Link>
             </div>
-        )
+        );
     }
 }
