@@ -9,7 +9,7 @@ class AccountPage extends Component {
             account: this.props.account,
             orders: [],
         }
-        axios.get('http://localhost:5000/account', {
+        axios.get('/api/account', {
             params: {
                 account: this.props.account,
             }

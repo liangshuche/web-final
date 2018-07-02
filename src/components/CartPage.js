@@ -8,7 +8,7 @@ class CartPage extends Component {
             cart: [],
             redirect: false,
         }
-        axios.get('http://localhost:5000/cart', {
+        axios.get('/api/cart', {
             params: {
                 account: this.props.account,
             }
@@ -22,7 +22,7 @@ class CartPage extends Component {
         this.handleOnClick = this.handleOnClick.bind(this);
     }
     handleOnClick(){
-        axios.get('http://localhost:5000/checkout', {
+        axios.get('/api/checkout', {
             params: {
                 account: this.props.account,
             }

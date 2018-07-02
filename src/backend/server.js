@@ -13,7 +13,9 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-app.use(express.static(path.join(__dirname, '../../build')));
+if (process.env === 'production'){
+	app.use(express.static(path.join(__dirname, '../../build')));
+}
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://admin:a12345@ds217921.mlab.com:17921/web_final', function(err) {
@@ -79,7 +81,7 @@ const io = socket(server);
 const log = [];
 
 
-app.get('/api/', function(req, res){
+app.get('/api/home', function(req, res){
 	connection.db.collection("shops", function(err, collection) {
 		collection.find({}).toArray(function(err, data) {
 			res.send(data);
@@ -100,7 +102,7 @@ app.post('/api/login', function(req, res){
 	}
 })
 
-app.get('/shop', function(req, res){
+app.get('/api/shop', function(req, res){
 	let shop = shoplist.find(function(e) {
 		return e.name === req.query.shopname
 	})
@@ -115,7 +117,7 @@ app.get('/shop', function(req, res){
 	}
 })
 
-app.post('/addtocart', function(req, res){
+app.post('/api/addtocart', function(req, res){
 	let account = userList.find(function(e) {
 		return e.account === req.body.account
 	})
@@ -132,7 +134,7 @@ app.post('/addtocart', function(req, res){
 	console.log(account);
 })
 
-app.get('/cart', function(req, res){
+app.get('/api/cart', function(req, res){
 	let account = userList.find(function(e) {
 		return e.account === req.query.account
 	})
@@ -145,7 +147,7 @@ app.get('/cart', function(req, res){
 	}
 })
 
-app.get('/checkout', function(req, res){
+app.get('/api/checkout', function(req, res){
 	let account = userList.find(function(e) {
 		return e.account === req.query.account
 	})
@@ -166,7 +168,7 @@ app.get('/checkout', function(req, res){
 	}
 })
 
-app.get('/account', function(req, res){
+app.get('/api/account', function(req, res){
 	let account = userList.find(function(e) {
 		return e.account === req.query.account
 	})
@@ -179,7 +181,7 @@ app.get('/account', function(req, res){
 	}
 })
 
-app.get('/order', function(req, res){
+app.get('/api/order', function(req, res){
 	let account = userList.find(function(e) {
 		return e.account === req.query.account
 	})
@@ -200,7 +202,7 @@ app.get('/order', function(req, res){
 	}
 })
 
-app.get('/rate', function(req, res){
+app.get('/api/rate', function(req, res){
 	let account = userList.find(function(e) {
 		return e.account === req.query.account
 	})
@@ -220,7 +222,7 @@ app.get('/rate', function(req, res){
 	}
 })
 
-app.get('/updaterate', function(req, res){
+app.get('/api/updaterate', function(req, res){
 	let account = userList.find(function(e) {
 		return e.account === req.query.account
 	})
@@ -241,7 +243,7 @@ app.get('/updaterate', function(req, res){
 	}
 })
 
-app.get('/messenger', function(req, res){
+app.get('/api/messenger', function(req, res){
 	res.send({
 		log: log
 	})

@@ -1,23 +1,19 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import io from 'socket.io-client';
 import './App.css';
 
 import NavBar from './components/Navbar';
-import PostList from './components/PostList';
 import HomePage from './components/HomePage';
 import AboutPage from './components/AboutPage';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
-import PostPage from './components/PostPage';
-import ContentPage from './components/ContentPage';
 import ShopPage from './components/ShopPage';
 import CartPage from './components/CartPage';
 import AccountPage from './components/AccountPage';
 import RatePage from './components/RatePage';
 import OrderPage from './components/OrderPage';
 import MessengerPage from './components/MessengerPage';
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +21,6 @@ class App extends React.Component {
       acocunt: '',
     };
 
-    this.socket = io();
     
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
@@ -64,23 +59,7 @@ class App extends React.Component {
     const MyHomePage = (props) => {
       return (
         <div>
-          <PostList socket={this.socket}/>
           <HomePage login={this.state.login} username={this.state.username} />
-        </div>
-      );
-    }
-
-    const MyPostPage = (props) => {
-      return (
-        <PostPage login={this.state.login} username={this.state.username} socket={this.socket}/>
-      );
-    }
-
-    const MyContentPage = (props) => {
-      return (
-        <div>
-          <PostList socket={this.socket}/>
-          <ContentPage socket={this.socket} _id={props.match.params._id}/>
         </div>
       );
     }

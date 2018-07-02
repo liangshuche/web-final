@@ -14,7 +14,7 @@ class MessengerPage extends Component {
       log: '',
     };
 
-    axios.get('http://localhost:5000/messenger')
+    axios.get('/api/messenger')
         .then(res => {
             this.setState({ log: res.data.log })
         })

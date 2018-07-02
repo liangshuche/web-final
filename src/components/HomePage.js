@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import avatar from '../img/avatar.jpg'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import $ from 'jquery';
+import './Style.css';
 
 //slides
 import slide1 from '../img/slide1.png'
@@ -15,7 +14,7 @@ class HomePage extends Component {
         this.state = {
             shops: '',
         }
-        axios.get('/api/')
+        axios.get('/api/home')
         .then(res => {
             this.setState({ shops: res.data });
         })

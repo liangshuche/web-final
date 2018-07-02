@@ -13,7 +13,7 @@ class OrderPage extends Component {
         if (!this.state.account){
             this.setState({ account: 'anonymous'})
         }
-        axios.get('http://localhost:5000/order', {
+        axios.get('/api/order', {
             params: {
                 account: this.props.account,
                 id: this.props.id,

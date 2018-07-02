@@ -9,7 +9,7 @@ class ShopPage extends Component {
             food: '',
             img: '',
         }
-        axios.get('http://localhost:5000/shop', {
+        axios.get('/api/shop', {
             params: {
                 shopname: this.props.shop,
             }
@@ -58,7 +58,7 @@ class FoodList extends Component {
         this.handlePlus = this.handlePlus.bind(this);
     }
     handleClick() {
-        axios.post('http://localhost:5000/addtocart', {
+        axios.post('/api/addtocart', {
             account: this.state.account,
             food: this.props.name,
             price: this.props.price,

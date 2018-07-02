@@ -10,7 +10,7 @@ class OrderPage extends Component {
             rate: 0,
             redirect: false,
         }
-        axios.get('http://localhost:5000/rate', {
+        axios.get('/api/rate', {
             params: {
                 account: this.props.account,
                 id: this.props.id,        
