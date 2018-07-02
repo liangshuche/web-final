@@ -26,7 +26,7 @@ class MessengerPage extends Component {
       this.setState({ log: [...this.state.log, data] });
     };
 
-    this.socket = io('localhost:5000');
+    this.socket = io();
     this.socket.on('RECEIVE_MESSAGE', (data) => {
         loadMessage(data);
     });

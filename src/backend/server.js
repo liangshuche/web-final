@@ -71,7 +71,7 @@ const shop2 = {
 const shoplist = [shop1, shop2];
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
-	console.log('server is running on port her' + port);
+	console.log('server is running on port ' + port);
 });
 
 const io = socket(server);
