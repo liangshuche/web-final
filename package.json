@@ -22,7 +22,8 @@
     "start-all": "nodemon src/backend/server.js & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^16.1.0",

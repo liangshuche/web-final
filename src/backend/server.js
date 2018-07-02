@@ -79,7 +79,7 @@ const io = socket(server);
 const log = [];
 
 
-app.get('/', function(req, res){
+app.get('/api/', function(req, res){
 	connection.db.collection("shops", function(err, collection) {
 		collection.find({}).toArray(function(err, data) {
 			res.send(data);
