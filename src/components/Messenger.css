@@ -26,19 +26,21 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
-  
+  .main-box {
+    top: 5px;
+    border: 3px solid lightgray;
+  }
   .section1 {
-    height: 60px;
-    border-bottom: 3px solid gray;
+    height: 20px;
   }
   .section2 {
-    height: calc(100vh - 100px);
+    height: calc(100vh - 80px);
   }
   .bottom {
     position: absolute;
-    bottom: 0;
+    bottom: 5px;
     width: 100%;
-    padding: 0px 10px;
+    padding: 0px 5px;
   }
   .icon {
     border-right: 3px solid gray;

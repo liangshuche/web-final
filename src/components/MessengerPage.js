@@ -83,10 +83,9 @@ class MessengerPage extends Component {
 
     return (
         <div className="container">
-          
             <div className="row section2">
                 <div className="col-2"></div>
-                <div className="col-8">
+                <div className="col-8 main-box">
                     <div className="row">
                         <div className="col-12 chat-log">
                             {log}
