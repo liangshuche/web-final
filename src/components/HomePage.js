@@ -31,7 +31,7 @@ class HomePage extends Component {
             if(i<3){
                 let shops = 
                 <div class="card">
-                    <Link to={'/shop/'+this.state.shops[i].name}><img class="card-img-top" style={{ width: 200 }} src={this.state.shops[i].img}/></Link>
+                    <Link to={'/shop/'+this.state.shops[i].name}><img class="card-img-top"  src={this.state.shops[i].img}/></Link>
                     <div class="card-body">
                         <h5 class="card-title">{this.state.shops[i].name}</h5>
                     </div>
@@ -47,7 +47,7 @@ class HomePage extends Component {
             if(i<6){
                 let shops = 
                 <div class="card">
-                    <Link to={'/shop/'+this.state.shops[i].name}><img class="card-img-top" style={{ width: 200 }} src={this.state.shops[i].img}/></Link>
+                    <Link to={'/shop/'+this.state.shops[i].name}><img class="card-img-top"  src={this.state.shops[i].img}/></Link>
                     <div class="card-body">
                         <h5 class="card-title">{this.state.shops[i].name}</h5>
                     </div>
@@ -61,16 +61,16 @@ class HomePage extends Component {
 
         return (
             <div>
-                <div id="slideControls" class="carousel slide container " data-ride="carousel">
-                    <div class="carousel-inner">
+                <div id="slideControls" class="carousel slide container" data-ride="carousel">
+                    <div class="carousel-inner center">
                         <div class="carousel-item active">
-                            <img src={slide1} class="img-responsive" alt="Responsive image"/>
+                            <img src={slide1} class="img-responsive center" alt="Responsive image"/>
                         </div>
                         <div class="carousel-item">
-                            <img src={slide2} class="img-responsive" alt="Responsive image"/>
+                            <img src={slide2} class="img-responsive center" alt="Responsive image"/>
                         </div>
                         <div class="carousel-item">
-                            <img src={slide3} class="img-responsive" alt="Responsive image"/>
+                            <img src={slide3} class="img-responsive center" alt="Responsive image"/>
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#slideControls" role="button" data-slide="prev">
