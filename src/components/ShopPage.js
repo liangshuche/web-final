@@ -7,6 +7,7 @@ class ShopPage extends Component {
             account: this.props.account,
             shopname: this.props.shop,
             food: '',
+            img: '',
         }
         axios.get('http://localhost:5000/shop', {
             params: {
@@ -14,7 +15,11 @@ class ShopPage extends Component {
             }
         })
         .then(res => {
-            this.setState({ food: res.data });
+            console.log(res.data)
+            this.setState({ 
+                food: res.data.food,
+                img: res.data.img,
+            });
         })
         .catch(function (err) {
           console.log(err);
@@ -31,6 +36,7 @@ class ShopPage extends Component {
             
 
             <div>
+                <img src={this.state.img} alt='Shop Img'/>
                 <h1>Shop ID:{this.state.shopname}</h1>
                 {_foods}
             </div>

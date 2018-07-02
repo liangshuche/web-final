@@ -104,7 +104,10 @@ app.get('/shop', function(req, res){
 		return e.name === req.query.shopname
 	})
 	if (shop) {
-		res.send(shop.food);
+		res.send({
+			food: shop.food,
+			img: shop.img
+		});
 	}
 	else {
 		res.send('error');
