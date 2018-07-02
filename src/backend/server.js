@@ -87,7 +87,7 @@ app.get('/api/', function(req, res){
 	})
 })
 
-app.post('/login', function(req, res){
+app.post('/api/login', function(req, res){
 	let user = userList.find(function(e) {
 		return e.account === req.body.account;
 	  });

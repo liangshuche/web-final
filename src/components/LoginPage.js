@@ -28,7 +28,7 @@ class LoginPage extends Component {
 
 	handleSubmit(ev) {
 		ev.preventDefault()
-		axios.post('http://localhost:5000/login', {
+		axios.post('/api/login', {
 			account: this.state.account,
 			password: this.state.password,
 		})
