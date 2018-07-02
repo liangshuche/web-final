@@ -8,30 +8,30 @@ class ShopPage extends Component {
             shopname: this.props.shop,
             food: '',
             img: '',
-        }
+        };
         axios.get('/api/shop', {
             params: {
                 shopname: this.props.shop,
             }
         })
-        .then(res => {
-            console.log(res.data)
-            this.setState({ 
-                food: res.data.food,
-                img: res.data.img,
+            .then(res => {
+                console.log(res.data);
+                this.setState({ 
+                    food: res.data.food,
+                    img: res.data.img,
+                });
+            })
+            .catch(function (err) {
+                console.log(err);
             });
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
     }
 
 
     render() {
-        var _foods = []
+        var _foods = [];
         for(let i=0; i<this.state.food.length; ++i){
-                _foods.push(<FoodList name={this.state.food[i].name} price={this.state.food[i].price} account={this.props.account}/>);
-            }
+            _foods.push(<FoodList name={this.state.food[i].name} price={this.state.food[i].price} account={this.props.account}/>);
+        }
         return (
             
 
@@ -52,7 +52,7 @@ class FoodList extends Component {
         this.state = {
             quantity: 1,
             account: this.props.account,
-        }
+        };
         this.handleClick = this.handleClick.bind(this);
         this.handleMinus = this.handleMinus.bind(this);
         this.handlePlus = this.handlePlus.bind(this);
@@ -64,15 +64,15 @@ class FoodList extends Component {
             price: this.props.price,
             quantity: this.state.quantity
         })
-        .catch(function (err) {
-            console.log(err);
-        })
+            .catch(function (err) {
+                console.log(err);
+            });
     }
     handleMinus() {
         if(this.state.quantity > 1){
             this.setState ({
                 quantity: this.state.quantity-1,
-            })
+            });
         }
     }
 
@@ -80,7 +80,7 @@ class FoodList extends Component {
         if(this.state.quantity < 99){
             this.setState ({
                 quantity: this.state.quantity+1,
-            })
+            });
         }
     }
   
@@ -101,7 +101,7 @@ class FoodList extends Component {
                 <div>
                     <span>Name: {this.props.name} Price: {this.props.price}</span>                    
                 </div>
-            )
+            );
         }
     }
-  }
+}
