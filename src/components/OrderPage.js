@@ -9,9 +9,9 @@ class OrderPage extends Component {
             id: this.props.id,
             content: '',
             rate: 0,
-        }
+        };
         if (!this.state.account){
-            this.setState({ account: 'anonymous'})
+            this.setState({ account: 'anonymous'});
         }
         axios.get('/api/order', {
             params: {
@@ -19,31 +19,31 @@ class OrderPage extends Component {
                 id: this.props.id,
             }
         })
-        .then(res => {
-            if (res.data.status === 'success') {
-                this.setState({
-                    content: res.data.content,
-                    rate: res.data.rate,
-                })
-            }
-            else {
-                console.log('Some Thing Went Wrong')
-            }
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
+            .then(res => {
+                if (res.data.status === 'success') {
+                    this.setState({
+                        content: res.data.content,
+                        rate: res.data.rate,
+                    });
+                }
+                else {
+                    console.log('Some Thing Went Wrong');
+                }
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
     }
 
     render() {
         let list = [];
         for (let i=0; i<this.state.content.length; ++i){
-            let item = this.state.content[i]
+            let item = this.state.content[i];
             list.push(
                 <div>
                     <h6>{item.quantity} X {item.food} = {item.price*item.price}</h6>
                 </div>
-            )
+            );
         }
         return (
             <div>

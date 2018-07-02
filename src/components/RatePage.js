@@ -9,24 +9,24 @@ class OrderPage extends Component {
             id: this.props.order,
             rate: 0,
             redirect: false,
-        }
+        };
         axios.get('/api/rate', {
             params: {
                 account: this.props.account,
                 id: this.props.id,        
             }
         })
-        .then(res => {
-            if (res.data.status === 'success') {
-                this.setState( {rate: res.data.rate })
-            }
-            else {
-                console.log('Some Thing Went Wrong')
-            }
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
+            .then(res => {
+                if (res.data.status === 'success') {
+                    this.setState( {rate: res.data.rate });
+                }
+                else {
+                    console.log('Some Thing Went Wrong');
+                }
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
 
         this.handleMinus = this.handleMinus.bind(this);
         this.handlePlus = this.handlePlus.bind(this);
@@ -36,7 +36,7 @@ class OrderPage extends Component {
         if(this.state.rate > 0){
             this.setState ({
                 rate: this.state.rate-1,
-            })
+            });
         }
     }
 
@@ -44,7 +44,7 @@ class OrderPage extends Component {
         if(this.state.rate < 5){
             this.setState ({
                 rate: this.state.rate+1,
-            })
+            });
         }
     }
 
@@ -56,22 +56,22 @@ class OrderPage extends Component {
                 rate: this.state.rate
             }
         })
-        .then((res) => {
-            if (res.data.status === 'success'){
-                this.setState({ redirect: true })
-            }
-            else {
-                alert('Something Went Wrong...\nPlease Try Again.')
-            }
-        })
-        .catch(function (err) {
-            console.log(err);
-        });
+            .then((res) => {
+                if (res.data.status === 'success'){
+                    this.setState({ redirect: true });
+                }
+                else {
+                    alert('Something Went Wrong...\nPlease Try Again.');
+                }
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
     }
 
     render() {
         if (this.state.redirect) {
-            return <Redirect push to={'/account/'+this.props.id}/>
+            return <Redirect push to={'/account/'+this.props.id}/>;
         }
         return (
             <div>
