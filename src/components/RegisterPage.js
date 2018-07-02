@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 let errBar = <div><br/></div>;
 
@@ -20,17 +21,8 @@ class RegisterPage extends Component {
             redirect: false,
             error: false,
             account_exist: false,
-        }
+        };
 
-        this.socket = this.props.socket;
-
-        this.socket.on('ACCOUNT_EXIST', () => {
-            this.setState({ account_exist: true });
-        });
-
-        this.socket.on('RECEIVE_REGISTER', () => {
-            this.setState({ redirect: true });
-        })
 
         this.handleAccountChange = this.handleAccountChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -70,7 +62,7 @@ class RegisterPage extends Component {
         this.setState({ age: ev.target.value });
     }
     handleFirstnameChange(ev) {
-        if( ev.target.value.length > 1 && ev.target.value.length < 21 ){
+        if( ev.target.value.length > 0 && ev.target.value.length < 21 ){
             this.setState({ firstnameClass: 'is-valid'});
         }
         else {
@@ -80,7 +72,7 @@ class RegisterPage extends Component {
     }
 
     handleLastnameChange(ev) {
-        if( ev.target.value.length > 1 && ev.target.value.length < 21 ){
+        if( ev.target.value.length > 0 && ev.target.value.length < 21 ){
             this.setState({ lastnameClass: 'is-valid'});
         }
         else {
@@ -90,13 +82,25 @@ class RegisterPage extends Component {
     }
     handleSubmit(ev) {
         ev.preventDefault()
-        if( this.state.ageClass === 'is-valid' && this.state.passwordClass === 'is-valid' && this.state.usernameClass === 'is-valid'){
-            this.socket.emit('REGISTER', {
-                username: this.state.username,
+        if( this.state.accountClass === 'is-valid' && this.state.passwordClass === 'is-valid' && this.state.firstnameClass === 'is-valid' && this.state.lastnameClass === 'is-valid' && this.state.ageClass === 'is-valid'){
+            axios.post('/api/register', {
+                account: this.state.account,
                 password: this.state.password,
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
                 age: this.state.age,
-            });
-            this.setState({ password: ''});
+            })
+                .then((res) => {
+                    if (res.data.valid === true){
+                        this.setState({ redirect: true });
+                    }
+                    else {
+                        this.setState({ error: true });
+                    }
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
         }
         else {
             this.setState({ 

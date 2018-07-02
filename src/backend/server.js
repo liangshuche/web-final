@@ -85,14 +85,14 @@ app.get('/api/home', function(req, res){
     connection.db.collection('shops', function(err, collection) {
         collection.find({}).toArray(function(err, data) {
             res.send(data);
-    	});
+        });
     });
 });
 
 app.post('/api/login', function(req, res){
     let user = userList.find(function(e) {
         return e.account === req.body.account;
-	  });
+      });
     if (user && user.password === req.body.password) {
         console.log(user.account + ' log in');
         res.send({ valid: true });
@@ -102,6 +102,17 @@ app.post('/api/login', function(req, res){
     }
 });
 
+app.post('/api/register', function(req, res){
+    userList.push({
+        account: req.body.account,
+        password: req.body.password,
+        age: req.body.age,
+        cart: [],
+        order: [],
+    });
+    res.send({valid: true});
+    console.log(userList);
+})
 app.get('/api/shop', function(req, res){
     let shop = shoplist.find(function(e) {
         return e.name === req.query.shopname;
@@ -157,8 +168,8 @@ app.get('/api/checkout', function(req, res){
         account.order.push({
             id: (account.order.length+1).toString(),
             content: account.cart,
-			rate: 0,
-			deliver: req.query.deliver,
+            rate: 0,
+            deliver: req.query.deliver,
         });
         console.log(account.order);
         account.cart = [];
