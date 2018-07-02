@@ -181,6 +181,20 @@ app.get('/api/checkout', function(req, res){
     }
 });
 
+app.get('/api/clearcart', function(req, res){
+    let account = userList.find(function(e) {
+        return e.account === req.query.account;
+    });
+    console.log(account);
+    if (account) {
+        account.cart = [];
+        res.send( {success: true} );
+    }
+    else {
+        res.send('error');
+    }
+});
+
 app.get('/api/account', function(req, res){
     let account = userList.find(function(e) {
         return e.account === req.query.account;
