@@ -12,10 +12,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-
-if (process.env === 'production'){
-    app.use(express.static(path.join(__dirname, '../../build')));
-}
+app.use(express.static(path.join(__dirname, '../../build')));
+// if (process.env === 'production'){
+//     app.use(express.static(path.join(__dirname, '../../build')));
+// }
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://admin:a12345@ds217921.mlab.com:17921/web_final', function(err) {
