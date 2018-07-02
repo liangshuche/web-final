@@ -18,8 +18,8 @@
     "socket.io-client": "^2.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start-all": "nodemon src/backend/server.js & react-scripts start",
+    "start-all": "react-scripts start",
+    "start": "node src/backend/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
