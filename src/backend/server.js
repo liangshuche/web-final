@@ -3,7 +3,9 @@ const socket = require('socket.io');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 const app = express();
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -11,10 +13,9 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-mongoose.Promise = global.Promise;
-//mongoose.connect('mongodb://admin:a12345@ds217921.mlab.com:17921/web_final');
-//mongoose.connect('mongodb://localhost/web_test');
+app.use(express.static(path.join(__dirname, '../../build')));
 
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://admin:a12345@ds217921.mlab.com:17921/web_final', function(err) {
     if (err) throw err;
 });
@@ -68,9 +69,9 @@ const shop2 = {
 }
 
 const shoplist = [shop1, shop2];
-
-const server = app.listen(5000, () => {
-	console.log('server is running on port 5000');
+const port = process.env.PORT || 5000;
+const server = app.listen(port, () => {
+	console.log('server is running on port her' + port);
 });
 
 const io = socket(server);

@@ -15,7 +15,7 @@ class HomePage extends Component {
         this.state = {
             shops: '',
         }
-        axios.get('http://localhost:5000/')
+        axios.get('/')
         .then(res => {
             this.setState({ shops: res.data });
         })

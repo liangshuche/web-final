@@ -25,7 +25,7 @@ class App extends React.Component {
       acocunt: '',
     };
 
-    this.socket = io('localhost:5000');
+    this.socket = io();
     
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
