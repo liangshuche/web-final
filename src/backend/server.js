@@ -88,7 +88,7 @@ var u = new User({
 
 
 const userList = [
-    { account: 'admin', password: '123' , age: '20', cart: [], order: []},
+    { account: 'admin', password: '123' , age: '20', manage: 'shop1', cart: [], order: []},
     { acocunt: 'tony' , password: '123', age: '21', cart: [], order: []}
 ];
 const rice = {
@@ -134,6 +134,7 @@ const log = [];
 app.get('/api/home', function(req, res){
     connection.db.collection('shops', function(err, collection) {
         collection.find({}).toArray(function(err, data) {
+            console.log(data);
             res.send(data);
         });
     });
@@ -146,7 +147,10 @@ app.post('/api/login', function(req, res){
     });
     if (user && user.password === req.body.password) {
         console.log(user.account + ' log in');
-        res.send({ valid: true });
+        res.send({ 
+            valid: true,
+            manage: user.manage,
+        });
     }
     else {
         res.send({ valid: false});
@@ -325,6 +329,11 @@ app.get('/api/messenger', function(req, res){
         log: log
     });
 });
+
+app.get('/api/manage', function(req, res){
+    const shopname = req.query.shop;
+    
+})
 
 var options = {
     hour: "2-digit",

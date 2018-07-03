@@ -38,6 +38,7 @@ class LoginPage extends Component {
                     this.props.handleLogin({
                         login: true,
                         account: this.state.account,
+                        manage: res.data.manage,
                     });
                 }
                 else {

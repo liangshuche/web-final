@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 import axios from 'axios';
 import './Messenger.css';
@@ -63,6 +64,14 @@ class MessengerPage extends Component {
     }
 
     render() {
+        if (!this.state.account) {
+
+            return (
+                <div>     
+                    <Redirect push to='/login'/>
+                </div>
+            );
+        }
         const log = [];
         for (let i = 0; i < this.state.log.length; i++) {
             if (this.state.log[i].from === this.state.account) {

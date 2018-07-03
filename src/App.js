@@ -13,12 +13,14 @@ import AccountPage from './components/AccountPage';
 import RatePage from './components/RatePage';
 import OrderPage from './components/OrderPage';
 import MessengerPage from './components/MessengerPage';
+import ManagePage from './components/ManagePage';
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             login: false,
             acocunt: '',
+            manage: '',
         };
 
     
@@ -29,8 +31,10 @@ class App extends Component {
         this.setState({
             login: e.login,
             account: e.account,
+            manage: e.manage,
         });
     }
+
 
     handleLogout() {
         this.setState({
@@ -43,12 +47,12 @@ class App extends Component {
     render() {
         const MyNavBar = (props) => {
             return (
-                <NavBar login={this.state.login} account={this.state.account} handleLogout={this.handleLogout}/>
+                <NavBar login={this.state.login} account={this.state.account} manage={this.state.manage} handleLogout={this.handleLogout}/>
             );
         };
         const MyLoginPage = (props) => {
             return (
-                <LoginPage handleLogin={this.handleLogin} socket={this.socket}/>
+                <LoginPage handleLogin={this.handleLogin}/>
             );
         }; 
         const MyRegisterPage = (props) => {
@@ -99,7 +103,12 @@ class App extends Component {
                 <MessengerPage account={this.state.account}/>
             );
         };
-
+        
+        const MyManagePage = (props) => {
+            return (
+                <ManagePage manage={this.state.manage}/>
+            );
+        };
         return (
             <BrowserRouter>
                 <div>
@@ -114,6 +123,7 @@ class App extends Component {
                     <Route exact path='/account/:order' render={MyOrderPage}/>
                     <Route exact path='/account/:order/rate' render={MyRatePage}/>
                     <Route exact path='/messenger' render={MyMessenger}/>
+                    <Route exact path='/manage' render={MyManagePage}/>
                 </div>
             </BrowserRouter>
         );

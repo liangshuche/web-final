@@ -12,17 +12,18 @@ class NavBar extends Component {
         this.state = {
             redirect: false,
         };
-
-        this.handleLogout = this.handleLogout.bind(this);
-    }
-    handleLogout(ev) {
-        this.props.socket.emit('LOGOUT');
-        this.setState({redirect: true});
     }
 
     render() {
         let navBar_left;
-        if ( this.props.login ) {
+        if ( this.props.manage ) {
+            navBar_left = 
+                <div class='navbar-nav ml-auto'>
+                    <Link to={'/manage'}><a class="nav-item nav-link" >Manage</a></Link>                            
+                    <Link to='/'><a class="nav-item nav-link" onClick={this.props.handleLogout} >Logout</a></Link>
+                </div>;
+        }
+        else if ( this.props.login ) {
             navBar_left = 
                 <div class='navbar-nav ml-auto'>
                     <Link to={'/cart'}><a class="nav-item nav-link" >Cart</a></Link>                            
