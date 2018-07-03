@@ -40,6 +40,7 @@ class App extends Component {
         this.setState({
             login: false,
             account: '',
+            manage: '',
         });
     }
 

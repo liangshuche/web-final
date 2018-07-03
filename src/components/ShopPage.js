@@ -36,21 +36,21 @@ class ShopPage extends Component {
         for(let i=0; i<this.state.food.length; ++i){
             let food_info =
             <ul class='list-group list-group-flush center' id="food_card">
-            <li class="list-group-item">
-                <div class='container'>
-                    <div class="row">
-                        <div class="col">
-                            <h6>{this.state.food[i].name}</h6>
-                        </div>
-                        <div class="col-md-auto">
-                            <h6>{this.state.food[i].price}</h6>
-                        </div>
-                        <div class="col col-lg-2">
-                            <a href="#" class="btn">+</a>
+                <li class="list-group-item">
+                    <div class='container'>
+                        <div class="row">
+                            <div class="col">
+                                <h6>{this.state.food[i].name}</h6>
+                            </div>
+                            <div class="col-md-auto">
+                                <h6>{this.state.food[i].price}</h6>
+                            </div>
+                            <div class="col col-lg-2">
+                                <a href="#" class="btn">+</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li></ul>
+                </li></ul>;
             
             _foods.push(food_info);
             ///_foods.push(<FoodList name={this.state.food[i].name} price={this.state.food[i].price} account={this.props.account}/>);
@@ -60,38 +60,38 @@ class ShopPage extends Component {
         for(let i=0; i<this.state.food.length; ++i){
             let food_order =
             <ul class='list-group list-group-flush'>
-            <li class="list-group-item">
-                <div class='container'>
-                    <div class="row">
-                        <div class="col-4 food-name">
-                            <h6>{this.state.food[i].name}</h6>
-                        </div>
-                        <div class="col-3">
-                            <h6>{this.state.food[i].price}</h6>
-                        </div>
-                        <div class="col-5">
-                            <div class="form-group">
-                                <select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
+                <li class="list-group-item">
+                    <div class='container'>
+                        <div class="row">
+                            <div class="col-4 food-name">
+                                <h6>{this.state.food[i].name}</h6>
+                            </div>
+                            <div class="col-3">
+                                <h6>{this.state.food[i].price}</h6>
+                            </div>
+                            <div class="col-5">
+                                <div class="form-group">
+                                    <select class="form-control">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </li></ul>
+                </li></ul>;
             
             food_orders.push(food_order);
             ///_foods.push(<FoodList name={this.state.food[i].name} price={this.state.food[i].price} account={this.props.account}/>);
         }
 
 
-        var _infos = []
-                let info =
-                <div class="card">
+        var _infos = [];
+        let info =
+                <div class="card card-shop">
                     <img class="card-img-top" src={this.state.img}  alt={this.state.shopname}/>
                     <div class="card-body was-validated">
                         <h2 class="card-title" id="shopname">{this.state.shopname}</h2>
@@ -104,8 +104,8 @@ class ShopPage extends Component {
                         {food_orders}
                         <a href="#" class="btn btn-secondary btn-lg btn-block">結一波</a>
                     </div>
-                </div>
-            _infos.push(info);
+                </div>;
+        _infos.push(info);
 
         return (
             <div class="row">
@@ -116,7 +116,7 @@ class ShopPage extends Component {
                     {_infos}
                 </div>
             </div>
-            )
+        );
         
     
     }}

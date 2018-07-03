@@ -89,7 +89,7 @@ var u = new User({
 
 const userList = [
     { account: 'admin', password: '123' , age: '20', manage: 'shop1', cart: [], order: []},
-    { acocunt: 'tony' , password: '123', age: '21', cart: [], order: []}
+    { account: 'tony' , password: '123', age: '21', cart: [], order: []}
 ];
 const rice = {
     name: 'rice',
@@ -169,6 +169,17 @@ app.post('/api/register', function(req, res){
     console.log(userList);
 });
 app.get('/api/shop', function(req, res){
+    connection.db.collection('shops', function(err, collection) {
+        var query = collection.findOne({name: req.query.shopname});
+        var promise = query.exec();
+
+        promise.then(function (shop){
+            console.log(shop.foods)
+        })
+    });
+    io.emit('RECEIVE_MESSAGE', {from: 'bot', message: 'hello' });
+    
+    
     let shop = shoplist.find(function(e) {
         return e.name === req.query.shopname;
     });
@@ -332,7 +343,7 @@ app.get('/api/messenger', function(req, res){
 
 app.get('/api/manage', function(req, res){
     const shopname = req.query.shop;
-    
+
 })
 
 var options = {
