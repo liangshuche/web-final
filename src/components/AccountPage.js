@@ -45,7 +45,8 @@ class OrderItem extends Component {
         console.log(this.props.order);
         this.state={
             id: this.props.order.id,
-            order: this.props.order.content
+            order: this.props.order.content,
+            dest: this.props.order.deliver
         };
         this.handleOnClick = this.handleOnClick.bind(this);
     }
@@ -66,6 +67,7 @@ class OrderItem extends Component {
             <div>
                 <h6>######</h6>
                 {list}
+                <h6>Deliver To: {this.state.dest}</h6>
                 <Link to={'/account/'+this.state.id} ><button className='btn btn-secondary' onClick={this.handleOnClick}>Go To Detail</button></Link>
             </div>
         );

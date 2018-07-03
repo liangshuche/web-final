@@ -9,6 +9,7 @@ class OrderPage extends Component {
             id: this.props.id,
             content: '',
             rate: 0,
+            dest: '',
         };
         axios.get('/api/order', {
             params: {
@@ -21,6 +22,7 @@ class OrderPage extends Component {
                     this.setState({
                         content: res.data.content,
                         rate: res.data.rate,
+                        dest: res.data.dest,
                     });
                 }
                 else {
@@ -47,6 +49,7 @@ class OrderPage extends Component {
                 <h6>######</h6>
                 {list}
                 <h6>Rate: {this.state.rate}</h6>
+                <h6>Deliver To: {this.state.dest}</h6>
                 <Link to={'/account/'+this.state.id+'/rate'}><button className='btn btn-secondary'>Rate</button></Link>
             </div>
         );

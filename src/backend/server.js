@@ -60,11 +60,9 @@ var ShopSchema = new Schema({
 });
 
 var OrderSchema = new Schema({
-    updated: {type: Date, default: Date.now},
-    rate: String,
     deliver: String,
-    content: [Schema.Types.ObjectId],
-    shop: [Schema.Types.ObjectId]
+    content: [],
+    shop: String,
 });
 
 var MessageSchema = new Schema({
@@ -220,7 +218,6 @@ app.get('/api/checkout', function(req, res){
             rate: 0,
             deliver: req.query.deliver,
         };
-        console.log(thisorder);
     }).then(function(){
         var query_2 = User.findOneAndUpdate({account: req.query.account},{$set: {cart: []}, $push: {order: thisorder}}, {new: true});
         query_2.exec().then(function(){
@@ -261,6 +258,7 @@ app.get('/api/order', function(req, res){
                 content: order.content,
                 rate: order.rate,
                 success: true,
+                dest: order.deliver,
             });
         } else {
             res.send( {success: false});
