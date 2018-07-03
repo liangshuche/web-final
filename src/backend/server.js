@@ -27,11 +27,11 @@ var connection = mongoose.connection;
 connection.on('error', console.error.bind(console, 'connection error:'));
 connection.once('open', function(callback) {
     console.log('connection open');
-    connection.db.collection('shops', function(err, collection) {
-     	collection.find({}).toArray(function(err, data) {
-     		console.log(data);
-     	});
-    });
+    // connection.db.collection('shops', function(err, collection) {
+    //  	collection.find({}).toArray(function(err, data) {
+    //  		console.log(data);
+    //  	});
+    // });
 });
 
 var Schema = mongoose.Schema;
@@ -40,8 +40,8 @@ const UserSchema = new Schema({
     account: String,
     password: String,
     age: String,
-    cart: [Schema.Types.ObjectId],
-    order: [Schema.Types.ObjectId]
+    cart: [],
+    order: []
 });
 
 var FoodSchema = new Schema({
@@ -72,10 +72,10 @@ var Shop  = mongoose.model('Shops' , ShopSchema);
 var Order = mongoose.model('Orders', OrderSchema);
 
 var u = new Order({
-  rate: 5,
-  deliver: 'delivered',
-  content: [],
-  shop:[],
+    rate: 5,
+    deliver: 'delivered',
+    content: [],
+    shop:[],
 });
 /*
  u.save().then(() => {
@@ -91,61 +91,6 @@ var u = new Order({
 }).catch((err) => {console.log(err);});
 
 */
-//     promise.then(function (posts){
-//         posts.forEach(function(post){
-//             console.log(posts)
-//         });		
-//     }).catch((err) => {console.log(err);});
-// }).catch((err) => {console.log(err);});
-
-
-
-const userList = [
-    { account: 'admin', password: '123' , age: '20', manage: 'shop1', cart: [], order: []},
-    { account: 'tony' , password: '123', age: '21', cart: [{
-        food_name: 'rice',
-        price: 1000,
-        quantity: 5,
-    },{
-        food_name: 'chicken',
-        price: 200,
-        quantity: 5,
-    },{
-        food_name: 'dinner',
-        price: 100,
-        quantity: 9,
-    }], order: []}
-];
-const rice = {
-    name: 'rice',
-    price: 100,
-};
-
-const meat = {
-    name: 'meat',
-    price: 10,
-};
-
-const coke = {
-    name: 'coke',
-    price: 1000,
-};
-
-const shop1 = {
-    name:'活大自助餐',
-    rate: 0.5,
-    img: 'https://uploadfile.huiyi8.com/2015/1201/20151201054035448.jpg',
-    food: [rice, meat],
-};
-
-const shop2 = {
-    name: '胖老爹',
-    rate: 5,
-    img: 'https://picdn.gomaji.com/products/918/182918/182918_1_1_r.jpg',
-    food: [meat, coke],
-};
-
-const shoplist = [shop1, shop2];
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
     console.log('server is running on port ' + port);
@@ -158,28 +103,27 @@ const log = [];
 
 
 app.get('/api/home', function(req, res){
-    connection.db.collection('shops', function(err, collection) {
-        collection.find({}).toArray(function(err, data) {
-            res.send(data);
-        });
+    var query = Shop.find({});
+    query.exec().then(function(shops){
+        res.send(shops);
     });
-    io.emit('RECEIVE_MESSAGE', {from: 'bot', message: 'hello' });
 });
 
 app.post('/api/login', function(req, res){
-    let user = userList.find(function(e) {
-        return e.account === req.body.account;
+    var query = User.findOne({account: req.body.account});
+    query.exec().then(function(account){
+        if(account.password === req.body.password){
+            console.log(account.account + ' log in');
+            res.send({
+                valid: true,
+                manage: account.manage,
+            });
+        } else {
+            res.send({ valid: false });
+        }
+    }).catch(function(){
+        res.send({ valid: false });
     });
-    if (user && user.password === req.body.password) {
-        console.log(user.account + ' log in');
-        res.send({ 
-            valid: true,
-            manage: user.manage,
-        });
-    }
-    else {
-        res.send({ valid: false});
-    }
 });
 
 app.post('/api/register', function(req, res){
@@ -194,48 +138,62 @@ app.post('/api/register', function(req, res){
     console.log(userList);
 });
 app.get('/api/shop', function(req, res){
-    let shop = shoplist.find(function(e) {
-        return e.name === req.query.shopname;
-    });
-    if (shop) {
-        res.send({
-            food: shop.food,
-            img: shop.img
+    let food_list = [];
+    let shop_img = '';
+    let shop_rate= '';
+    var promises = [];
+    var query = Shop.findOne({ name: req.query.shopname });
+    query.exec().then(function(shop){
+        console.log(shop)
+        shop_img = shop.img;
+        shop_rate = shop.rate;
+        for(let i=0;i<shop.foods.length;++i){
+            var query_food = Food.findOne({ name: shop.foods[i]});
+            var promise = (query_food.exec().then(function(food){
+                food_list.push({
+                    name: food.name,
+                    price: food.price,
+                });
+            }));
+            promises.push(promise);
+        }
+    }).then(function(){
+        Promise.all(promises).then(function (){
+    
+            console.log(food_list);
+            res.send({
+                food: food_list,
+                img: shop_img,
+                rate: shop_rate,
+            });
         });
-    }
-    else {
-        res.send('error');
-    }
+    });
 });
 
 app.post('/api/addtocart', function(req, res){
-    let account = userList.find(function(e) {
-        return e.account === req.body.account;
+    var query = User.findOne({account: req.body.account});
+    query.exec().then(function(account){
+        console.log(account);
+    })
+    console.log(req.body.cart);
+    var query = User.findOneAndUpdate({account: req.body.account},{$set: {cart: [req.body.cart]}}, {new: true});
+    query.exec().then(function(account){
+        res.send( {success: true });
+    }).catch(function(err){
+        res.send( {success: false });
     });
-    if (account) {
-        account.cart.push({
-            food: req.body.food,
-            price: req.body.price,
-            quantity: req.body.quantity,
-        });
-    }
-    else {
-        res.send('error');
-    }
-    console.log(account);
+
 });
 
 app.get('/api/cart', function(req, res){
-    let account = userList.find(function(e) {
-        return e.account === req.query.account;
-    });
-    console.log(account);
-    if (account) {
+    var query = User.findOne({ account: req.body.account });
+    query.exec().then(function(account){
+        console.log(account);
         res.send(account.cart);
-    }
-    else {
+    }).catch(function(err){
         res.send('error');
-    }
+    });
+
 });
 
 app.get('/api/checkout', function(req, res){
@@ -358,11 +316,11 @@ app.get('/api/messenger', function(req, res){
 app.get('/api/manage', function(req, res){
     const shopname = req.query.shop;
     
-})
+});
 
 var options = {
-    hour: "2-digit",
-    minute: "2-digit",
+    hour: '2-digit',
+    minute: '2-digit',
     hour12: false,
 };
 
@@ -379,18 +337,8 @@ io.on('connection', (socket) => {
 
         io.emit('RECEIVE_MESSAGE', data);
 
-        switch (data.message):
-          case 1:
-            
-            let time = new Date();       
-        io.emit('RECEIVE_MESSAGE', {
-          time: time.toLocaleString('en', options),
-          from: 'Bot',
-          message: 'whats up bro\nhello',
-            });
         
     });
 });
+
 */
-
-
