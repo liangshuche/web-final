@@ -35,7 +35,7 @@ class ShopPage extends Component {
         var _foods = [];
         for(let i=0; i<this.state.food.length; ++i){
             let food_info =
-            <ul class='list-group list-group-flush'>
+            <ul class='list-group list-group-flush center' id="food_card">
             <li class="list-group-item">
                 <div class='container'>
                     <div class="row">
@@ -63,14 +63,22 @@ class ShopPage extends Component {
             <li class="list-group-item">
                 <div class='container'>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-4 food-name">
                             <h6>{this.state.food[i].name}</h6>
                         </div>
-                        <div class="col-md-auto">
+                        <div class="col-3">
                             <h6>{this.state.food[i].price}</h6>
                         </div>
-                        <div class="col col-lg-2">
-                            <input class="form-control" id="count" placeholder="1"/>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -86,8 +94,8 @@ class ShopPage extends Component {
                 <div class="card">
                     <img class="card-img-top" src={this.state.img}  alt={this.state.shopname}/>
                     <div class="card-body was-validated">
-                        <h2 class="card-title">{this.state.shopname}  <small class="text-muted"> Rate: 5 </small></h2>
-                        
+                        <h2 class="card-title" id="shopname">{this.state.shopname}</h2>
+                        <label for="shopname">Rate</label>
                         <div class="custom-control custom-checkbox mb-3">
                             <input type="checkbox" class="custom-control-input" id="customControlValidation1" required></input>
                             <label class="custom-control-label" for="customControlValidation1"><small>我已詳閱公開說明書</small></label>

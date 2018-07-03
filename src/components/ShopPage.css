@@ -1,6 +1,16 @@
 .card{
-    width: 18rem;
+    width: 25rem;
     height: auto;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
 }
-.form-control{
+#count{
+    height : auto;
 }
+
+#foodcard_foods{
+    margin-left:2;
+}
+
+    
