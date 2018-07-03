@@ -192,25 +192,21 @@ app.get('/api/cart', function(req, res){
 });
 
 app.get('/api/checkout', function(req, res){
-    let account = userList.find(function(e) {
-        return e.account === req.query.account;
-    });
-    console.log(account);
-    if (account) {
-        console.log(account.cart);
-        account.order.push({
+    var query = User.findOne({ account: req.query.account });
+    query.exec().then(function(account){
+        let thisorder = {
             id: (account.order.length+1).toString(),
             content: account.cart,
             rate: 0,
             deliver: req.query.deliver,
-        });
-        console.log(account.order);
-        account.cart = [];
-        res.send( {success: true} );
-    }
-    else {
-        res.send('error');
-    }
+        };
+        console.log(thisorder);
+        var query_order = User.findOneAndUpdate({account: req.query.account}, {$set: {order: thisorder}, $set: {cart: []}},{new: true});
+        query_order.exec().then(function(){
+
+            res.send( {success: true });
+        }).catch(res.send( {success: false} ));
+    });
 });
 
 app.get('/api/clearcart', function(req, res){

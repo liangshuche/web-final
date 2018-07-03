@@ -8,3 +8,9 @@
     margin-top:auto;
     margin-bottom:auto;
 }
+
+.sum-box{
+    font-size: 20px;
+    color: black;
+    padding: 3px 5px 3px 5px;
+}

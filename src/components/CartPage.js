@@ -85,6 +85,7 @@ class CartPage extends Component {
         if (this.state.redirect) {
             return <Redirect push to ='/account'/>;
         }
+        let sum = 0;
         var food_orders = [];
         for(let i=0; i<this.state.cart.length; ++i){
             let food_order =
@@ -106,7 +107,8 @@ class CartPage extends Component {
                     </div>
                 </li>;
             food_orders.push(food_order);
-            }
+            sum = sum + parseInt(this.state.cart[i].price)*parseInt(this.state.cart[i].quantity);
+        }
         return (
             <div>
                 <div class="row">
@@ -130,7 +132,11 @@ class CartPage extends Component {
                             <option value='明達館'>明達館</option>
                         </select>
                     </div>
-                    <div class="col-2"></div>
+                    <div class="col-2">
+                        <div class="alert alert-light text-right sum-box">
+                            Total: {sum} USD
+                        </div>
+                    </div>
                     <div class='col-4'>
                         <button className='btn btn-secondary' onClick={this.handleOnClick} disabled={!this.state.deliver || this.state.cart.length === 0}>Check Out</button> 
                         <button className='btn btn-danger' onClick={this.handleClear} disabled={this.state.cart.length === 0}>Clear Cart</button> 
