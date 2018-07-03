@@ -88,35 +88,39 @@ class CartPage extends Component {
         var food_orders = [];
         for(let i=0; i<this.state.cart.length; ++i){
             let food_order =
-                <li class="list-group-item align-middle align-self-center">
-                    <div class='container container_food align-middle '>
-                        <div class="row align-self-center">
-                            <div class="col-3 col-3-mid">
-                                {this.state.cart[i].food_name}
+                <li class="list-group-item">
+                    <div class='container container_food'>
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                {this.state.cart[i].name}
                             </div>
-                            <div class="col-4 align-self-center">
+                            <div class="col-3">
                                 <div>{this.state.cart[i].price} USD</div>
                             </div>
-                            <div class="col-5 align-self-center">
+                            <div class="col-3">
                                 <div class="form-group align-self-bottom">
                                     <input type="text" class="form-control align-self-center" id="quantity" placeholder={this.state.cart[i].quantity}/>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </li>
-            ;
+                </li>;
             food_orders.push(food_order);
-                
             }
         return (
             <div>
-                <div class="col-md-5 col-md-push-7">
-                <ul class='list-group list-group-flush align-self-center'>
-                {food_orders}
-                </ul>
+                <div class="row">
+                    <div class='col-2'></div>
+                    <div class='col-8'>
+                        <ul class='list-group list-group-flush align-self-center'>
+                            {food_orders}
+                        </ul>
+                    </div>
+                    <div class='col-2'></div>
                 </div>
+                
                 <div className='form-row fixed-bottom'>
+                    <div class="col-2"></div>
                     <div class="form-group col-4">
                         <select class="form-control" value={this.state.deliver} onChange={this.handleOnChange}>
                             <option value='' disabled selected>請選擇取貨地點</option>
@@ -126,7 +130,7 @@ class CartPage extends Component {
                             <option value='明達館'>明達館</option>
                         </select>
                     </div>
-                    <div class="col-4"></div>
+                    <div class="col-2"></div>
                     <div class='col-4'>
                         <button className='btn btn-secondary' onClick={this.handleOnClick} disabled={!this.state.deliver || this.state.cart.length === 0}>Check Out</button> 
                         <button className='btn btn-danger' onClick={this.handleClear} disabled={this.state.cart.length === 0}>Clear Cart</button> 

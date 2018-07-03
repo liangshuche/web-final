@@ -171,12 +171,7 @@ app.get('/api/shop', function(req, res){
 });
 
 app.post('/api/addtocart', function(req, res){
-    var query = User.findOne({account: req.body.account});
-    query.exec().then(function(account){
-        console.log(account);
-    })
-    console.log(req.body.cart);
-    var query = User.findOneAndUpdate({account: req.body.account},{$set: {cart: [req.body.cart]}}, {new: true});
+    var query = User.findOneAndUpdate({account: req.body.account},{$set: {cart: req.body.cart}}, {new: true});
     query.exec().then(function(account){
         res.send( {success: true });
     }).catch(function(err){
@@ -186,7 +181,7 @@ app.post('/api/addtocart', function(req, res){
 });
 
 app.get('/api/cart', function(req, res){
-    var query = User.findOne({ account: req.body.account });
+    var query = User.findOne({ account: req.query.account });
     query.exec().then(function(account){
         console.log(account);
         res.send(account.cart);
@@ -233,16 +228,37 @@ app.get('/api/clearcart', function(req, res){
 });
 
 app.get('/api/account', function(req, res){
-    let account = userList.find(function(e) {
-        return e.account === req.query.account;
-    });
-    console.log(account);
-    if (account) {
-        res.send(account.order);
-    }
-    else {
-        res.send('error');
-    }
+    res.send([
+        {
+            id: 1,
+            content: [
+                {
+                    "name": "New Orlean Chicken",
+                    "price": "60",
+                    "quantity": 1
+                },
+                {
+                    "name": "Beef",
+                    "price": "600",
+                    "quantity": 3
+                }
+            ],
+            rate: 0,
+            deliver: '電機一館',
+        },
+        {
+            id: 2,
+            content: [
+                {
+                    "name": "rice",
+                    "price": "1000",
+                    "quantity": 5
+                }
+            ],
+            rate: 0,
+            deliver: '電機一館',
+        }
+    ]);
 });
 
 app.get('/api/order', function(req, res){
@@ -340,10 +356,6 @@ io.on('connection', (socket) => {
         
     });
 });
-<<<<<<< Updated upstream
-=======
 
 */
->>>>>>> Stashed changes
 
-*/

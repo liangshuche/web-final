@@ -58,7 +58,7 @@ class OrderItem extends Component {
             let item = this.state.order[i];
             list.push(
                 <div>
-                    <h6>{item.quantity} X {item.food} = {item.price*item.price}</h6>
+                    <h6>{item.name} {item.price} X {item.quantity} = {item.price*item.quantity}</h6>
                 </div>    
             );
         }
