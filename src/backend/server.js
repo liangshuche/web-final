@@ -90,9 +90,7 @@ var u = new Order({
     }).catch((err) => {console.log(err);});
 }).catch((err) => {console.log(err);});
 
-<<<<<<< d1d785a5a93358d249a25a7e9261ecab5a31068b
 */
-=======
 //     promise.then(function (posts){
 //         posts.forEach(function(post){
 //             console.log(posts)
@@ -148,7 +146,6 @@ const shop2 = {
 };
 
 const shoplist = [shop1, shop2];
->>>>>>> CartPage UI 30%
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
     console.log('server is running on port ' + port);
