@@ -12,10 +12,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-app.use(express.static(path.join(__dirname, '../../build')));
-// if (process.env.NODE_ENV === 'production'){
-//     app.use(express.static(path.join(__dirname, '../../build')));
-// }
+//app.use(express.static(path.join(__dirname, '../../build')));
+if (process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(__dirname, '../../build')));
+}
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://admin:a12345@ds217921.mlab.com:17921/web_final', function(err) {
@@ -244,7 +244,7 @@ app.get('/api/clearcart', function(req, res){
 app.get('/api/account', function(req, res){
     var query = User.findOne({ account: req.query.account });
     query.exec().then(function(account){
-        res.send( account.order );
+        res.send( account.order.reverse() );
     }).catch(function(err){
         console.log(err);
     });
