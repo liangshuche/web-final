@@ -73,7 +73,16 @@ class MessengerPage extends Component {
                         </span>
                     </div>
                 );
-            } else {
+            } else if (this.state.log[i].from === 'bot'){
+                log.push(
+                    <div className="Message-bot">
+                        <span className="Message-bot-box">
+                            {this.state.log[i].message}
+                        </span>
+                    </div>
+                )
+            }
+            else {
                 log.push(
                     <div className="Message-from">
                         <span className="Message-from-box">

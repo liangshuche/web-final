@@ -326,19 +326,26 @@ app.get('/api/messenger', function(req, res){
     });
 });
 
-
+var options = {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+};
 
 
 io.on('connection', (socket) => {
     console.log(`Socket ID: ${socket.id} connected`);
-
+    
     socket.on('SEND_MESSAGE', (data) => {
         log.push(data);
         io.emit('RECEIVE_MESSAGE', data);
         if (data.message === 'wtf'){
+            let time = new Date();
             io.emit('RECEIVE_MESSAGE', {
+                time: time.toLocaleString('en', options),
                 from: 'bot',
-                message: 'whats up bro',
+                message: 'whats up bro\nhello',
             });
         }
     });

@@ -69,6 +69,7 @@
     border-radius: 10px;
     padding: 3px 6px;
     word-wrap: break-word;
+    white-space: pre-line;
   }
   
   .Message-from {
@@ -76,7 +77,7 @@
     text-align: left;
     color: lightpink;
   }
-  
+
   .Message-from-box {
     display: inline-block;
     word-wrap: break-word;
@@ -84,7 +85,26 @@
     border-radius: 10px;
     padding: 3px 6px;
     word-wrap: break-word;
+    white-space: pre-line;
   }
+
+  .Message-bot {
+    margin-bottom: 20px;
+    text-align: left;
+    color: lightseagreen;
+  }
+
+  .Message-bot-box {
+    display: inline-block;
+    word-wrap: break-word;
+    border: solid 2px lightseagreen;
+    border-radius: 10px;
+    padding: 3px 6px;
+    word-wrap: break-word;
+    white-space: pre-line;
+  }
+  
+
   
   .chat-log {
     height: calc(100vh - 160px);
