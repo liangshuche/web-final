@@ -27,54 +27,63 @@ var connection = mongoose.connection;
 connection.on('error', console.error.bind(console, 'connection error:'));
 connection.once('open', function(callback) {
     console.log('connection open');
-     connection.db.collection("shops", function(err, collection) {
+    connection.db.collection('shops', function(err, collection) {
      	collection.find({}).toArray(function(err, data) {
      		console.log(data);
-     	})
-     })
+     	});
+    });
 });
 
 var Schema = mongoose.Schema;
 
-var UserSchema = new Schema({
-  _id: Schema.Types.ObjectId,
-  account: String,
-  password: String,
-  age: Schema.Types.Decimal128,
-  cart: [Schema.Types.ObjectId],
-  order: [Schema.Types.ObjectId]
-})
+const UserSchema = new Schema({
+    account: String,
+    password: String,
+    age: Schema.Types.Decimal128,
+    cart: [Schema.Types.ObjectId],
+    order: [Schema.Types.ObjectId]
+});
 
 var FoodSchema = new Schema({
-  _id: Schema.Types.ObjectId,
-  name: String,
-  price: Schema.Types.Decimal128,
-  shoplist: [Schema.Types.ObjectId]
-})
+    name: String,
+    price: Schema.Types.Decimal128,
+    shoplist: [Schema.Types.ObjectId]
+});
 
 var ShopSchema = new Schema({
-  _id: Schema.Types.ObjectId,
-  name: String,
-  rate: Schema.Types.Decimal128,
-  img: String
-})
+    name: String,
+    rate: Schema.Types.Decimal128,
+    img: String
+});
 
 var OrderSchema = new Schema({
-  _id: Schema.Types.ObjectId,
-  updated: {type: Date, default: Date.now},
-  rate: Schema.Types.Decimal128,
-  deliver: String,
-  content: [Schema.Types.ObjectId]
-})
+    updated: {type: Date, default: Date.now},
+    rate: Schema.Types.Decimal128,
+    deliver: String,
+    content: [Schema.Types.ObjectId]
+});
 
 var User = mongoose.model('Users_new', UserSchema);
 
-var u = new User;
-u.account = 'admin';
-u.password = '123';
-u.age = 20;
-u.cart = [];
-u.order= [];
+var u = new User({
+    account: 'test2',
+    password: '123',
+    age: 20,
+    cart: [],
+    order: [],
+});
+
+u.save().then(() => {
+    var query = User.find();
+
+    var promise = query.exec();
+
+    promise.then(function (posts){
+        posts.forEach(function(post){
+            console.log(posts)
+        });		
+    }).catch((err) => {console.log(err);});
+}).catch((err) => {console.log(err);});
 
 
 

@@ -18,8 +18,8 @@
     "socket.io-client": "^2.1.1"
   },
   "scripts": {
-    "start-all": "react-scripts start",
-    "start": "node src/backend/server.js",
+    "start": "react-scripts start",
+    "start-all": "node src/backend/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -31,5 +31,6 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.10.0"
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
