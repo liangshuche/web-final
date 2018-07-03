@@ -1,6 +1,5 @@
 .card {
-    min-width: 300px;
-    max-width: 300px;
+    max-width: 100%;
     margin-right: auto;
     margin-left: auto;
 }
@@ -18,6 +17,7 @@
     background-color: #eb7424
 }
 .center {
+    max-width: 100%;
     display: table;
     margin-left: auto;
     margin-right: auto;

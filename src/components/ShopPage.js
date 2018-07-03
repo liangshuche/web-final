@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './ShopPage.css';
+
 class ShopPage extends Component {
     constructor(props) {
         super(props);
@@ -12,6 +14,7 @@ class ShopPage extends Component {
         axios.get('/api/shop', {
             params: {
                 shopname: this.props.shop,
+                img: this.props.img,
             }
         })
             .then(res => {
@@ -28,21 +31,87 @@ class ShopPage extends Component {
 
 
     render() {
+
         var _foods = [];
         for(let i=0; i<this.state.food.length; ++i){
-            _foods.push(<FoodList name={this.state.food[i].name} price={this.state.food[i].price} account={this.props.account}/>);
-        }
-        return (
+            let food_info =
+            <ul class='list-group list-group-flush'>
+            <li class="list-group-item">
+                <div class='container'>
+                    <div class="row">
+                        <div class="col">
+                            <h6>{this.state.food[i].name}</h6>
+                        </div>
+                        <div class="col-md-auto">
+                            <h6>{this.state.food[i].price}</h6>
+                        </div>
+                        <div class="col col-lg-2">
+                            <a href="#" class="btn">+</a>
+                        </div>
+                    </div>
+                </div>
+            </li></ul>
             
+            _foods.push(food_info);
+            ///_foods.push(<FoodList name={this.state.food[i].name} price={this.state.food[i].price} account={this.props.account}/>);
+        }
 
-            <div>
-                <img src={this.state.img} alt='Shop Img'/>
-                <h1>Shop ID:{this.state.shopname}</h1>
-                {_foods}
+        var food_orders = [];
+        for(let i=0; i<this.state.food.length; ++i){
+            let food_order =
+            <ul class='list-group list-group-flush'>
+            <li class="list-group-item">
+                <div class='container'>
+                    <div class="row">
+                        <div class="col">
+                            <h6>{this.state.food[i].name}</h6>
+                        </div>
+                        <div class="col-md-auto">
+                            <h6>{this.state.food[i].price}</h6>
+                        </div>
+                        <div class="col col-lg-2">
+                            <input class="form-control" id="count" placeholder="1"/>
+                        </div>
+                    </div>
+                </div>
+            </li></ul>
+            
+            food_orders.push(food_order);
+            ///_foods.push(<FoodList name={this.state.food[i].name} price={this.state.food[i].price} account={this.props.account}/>);
+        }
+
+
+        var _infos = []
+                let info =
+                <div class="card">
+                    <img class="card-img-top" src={this.state.img}  alt={this.state.shopname}/>
+                    <div class="card-body was-validated">
+                        <h2 class="card-title">{this.state.shopname}  <small class="text-muted"> Rate: 5 </small></h2>
+                        
+                        <div class="custom-control custom-checkbox mb-3">
+                            <input type="checkbox" class="custom-control-input" id="customControlValidation1" required></input>
+                            <label class="custom-control-label" for="customControlValidation1"><small>我已詳閱公開說明書</small></label>
+                            <div class="invalid-feedback"><small>母湯</small></div>
+                        </div>
+                        {food_orders}
+                        <a href="#" class="btn btn-secondary btn-lg btn-block">結一波</a>
+                    </div>
+                </div>
+            _infos.push(info);
+
+        return (
+            <div class="row">
+                <div class="col-md-3 col-md-push-9">
+                    {_foods}
+                </div>
+                <div class="col-md-9 col-md-pull-3">
+                    {_infos}
+                </div>
             </div>
-        );
-    }
-}
+            )
+        
+    
+    }}
 
 export default ShopPage;
 
