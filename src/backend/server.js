@@ -39,92 +39,63 @@ var Schema = mongoose.Schema;
 const UserSchema = new Schema({
     account: String,
     password: String,
-    age: Schema.Types.Decimal128,
+    age: String,
     cart: [Schema.Types.ObjectId],
     order: [Schema.Types.ObjectId]
 });
 
 var FoodSchema = new Schema({
     name: String,
-    price: Schema.Types.Decimal128,
-    shoplist: [Schema.Types.ObjectId]
+    price: String,
+    shoplist: [String],
+    img: String,
 });
 
 var ShopSchema = new Schema({
     name: String,
-    rate: Schema.Types.Decimal128,
-    img: String
+    rate: String,
+    img: String,
+    foods: [String]
 });
 
 var OrderSchema = new Schema({
     updated: {type: Date, default: Date.now},
-    rate: Schema.Types.Decimal128,
+    rate: String,
     deliver: String,
-    content: [Schema.Types.ObjectId]
+    content: [Schema.Types.ObjectId],
+    shop: [Schema.Types.ObjectId]
 });
 
-var User = mongoose.model('Users_new', UserSchema);
+var User  = mongoose.model('Users' , UserSchema);
+var Food  = mongoose.model('Foods' , FoodSchema);
+var Shop  = mongoose.model('Shops' , ShopSchema);
+var Order = mongoose.model('Orders', OrderSchema);
 
-var u = new User({
-    account: 'test2',
-    password: '123',
-    age: 20,
-    cart: [],
-    order: [],
+var u = new Order({
+  rate: 5,
+  deliver: 'delivered',
+  content: [],
+  shop:[],
 });
+/*
+ u.save().then(() => {
+     var query = Order.find();
 
-// u.save().then(() => {
-//     var query = User.find();
+     var promise = query.exec();
 
-//     var promise = query.exec();
+    promise.then(function (posts){
+        posts.forEach(function(post){
+            console.log(posts)
+        });		
+    }).catch((err) => {console.log(err);});
+}).catch((err) => {console.log(err);});
 
-//     promise.then(function (posts){
-//         posts.forEach(function(post){
-//             console.log(posts)
-//         });		
-//     }).catch((err) => {console.log(err);});
-// }).catch((err) => {console.log(err);});
-
-
-
-const userList = [
-    { account: 'admin', password: '123' , age: '20', manage: 'shop1', cart: [], order: []},
-    { account: 'tony' , password: '123', age: '21', cart: [], order: []}
-];
-const rice = {
-    name: 'rice',
-    price: 100,
-};
-
-const meat = {
-    name: 'meat',
-    price: 10,
-};
-
-const coke = {
-    name: 'coke',
-    price: 1000,
-};
-
-const shop1 = {
-    name:'活大自助餐',
-    rate: 0.5,
-    img: 'https://uploadfile.huiyi8.com/2015/1201/20151201054035448.jpg',
-    food: [rice, meat],
-};
-
-const shop2 = {
-    name: '胖老爹',
-    rate: 5,
-    img: 'https://picdn.gomaji.com/products/918/182918/182918_1_1_r.jpg',
-    food: [meat, coke],
-};
-
-const shoplist = [shop1, shop2];
+*/
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
     console.log('server is running on port ' + port);
 });
+
 
 const io = socket(server);
 
@@ -134,7 +105,6 @@ const log = [];
 app.get('/api/home', function(req, res){
     connection.db.collection('shops', function(err, collection) {
         collection.find({}).toArray(function(err, data) {
-            console.log(data);
             res.send(data);
         });
     });
@@ -169,17 +139,6 @@ app.post('/api/register', function(req, res){
     console.log(userList);
 });
 app.get('/api/shop', function(req, res){
-    connection.db.collection('shops', function(err, collection) {
-        var query = collection.findOne({name: req.query.shopname});
-        var promise = query.exec();
-
-        promise.then(function (shop){
-            console.log(shop.foods)
-        })
-    });
-    io.emit('RECEIVE_MESSAGE', {from: 'bot', message: 'hello' });
-    
-    
     let shop = shoplist.find(function(e) {
         return e.name === req.query.shopname;
     });
@@ -343,7 +302,7 @@ app.get('/api/messenger', function(req, res){
 
 app.get('/api/manage', function(req, res){
     const shopname = req.query.shop;
-
+    
 })
 
 var options = {
@@ -352,26 +311,31 @@ var options = {
     hour12: false,
 };
 
-
+/*
 io.on('connection', (socket) => {
     console.log(`Socket ID: ${socket.id} connected`);
     
     socket.on('SEND_MESSAGE', (data) => {
         let time = new Date();
-        data.time = time.toLocaleString('en', options),
+        data.time = time.toLocaleString('en', options);
+
         log.push(data);
         console.log(data);
+
         io.emit('RECEIVE_MESSAGE', data);
-        if (data.message === 'wtf'){  
+
+        switch (data.message):
+          case 1:
+            
             let time = new Date();       
-            io.emit('RECEIVE_MESSAGE', {
-                time: time.toLocaleString('en', options),
-                from: 'Bot',
-                message: 'whats up bro\nhello',
+        io.emit('RECEIVE_MESSAGE', {
+          time: time.toLocaleString('en', options),
+          from: 'Bot',
+          message: 'whats up bro\nhello',
             });
-        }
+        
     });
 });
-
+*/
 
 
