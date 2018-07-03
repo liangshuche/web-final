@@ -71,14 +71,16 @@ class MessengerPage extends Component {
                         <span className="Message-to-box">
                             {this.state.log[i].message}
                         </span>
+                        <p className="time-str">{this.state.log[i].from+' '+this.state.log[i].time}</p>
                     </div>
                 );
-            } else if (this.state.log[i].from === 'bot'){
+            } else if (this.state.log[i].from === 'Bot'){
                 log.push(
                     <div className="Message-bot">
                         <span className="Message-bot-box">
                             {this.state.log[i].message}
                         </span>
+                        <p className="time-str">{this.state.log[i].time+' '+this.state.log[i].from}</p>
                     </div>
                 )
             }
@@ -88,6 +90,7 @@ class MessengerPage extends Component {
                         <span className="Message-from-box">
                             {this.state.log[i].message}
                         </span>
+                        <p className="time-str">{this.state.log[i].time+' '+this.state.log[i].from}</p>
                     </div>
                 );
             }

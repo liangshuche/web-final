@@ -73,17 +73,17 @@ var u = new User({
     order: [],
 });
 
-u.save().then(() => {
-    var query = User.find();
+// u.save().then(() => {
+//     var query = User.find();
 
-    var promise = query.exec();
+//     var promise = query.exec();
 
-    promise.then(function (posts){
-        posts.forEach(function(post){
-            console.log(posts)
-        });		
-    }).catch((err) => {console.log(err);});
-}).catch((err) => {console.log(err);});
+//     promise.then(function (posts){
+//         posts.forEach(function(post){
+//             console.log(posts)
+//         });		
+//     }).catch((err) => {console.log(err);});
+// }).catch((err) => {console.log(err);});
 
 
 
@@ -327,10 +327,9 @@ app.get('/api/messenger', function(req, res){
 });
 
 var options = {
-    month: "short",
-    day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+    hour12: false,
 };
 
 
@@ -338,13 +337,16 @@ io.on('connection', (socket) => {
     console.log(`Socket ID: ${socket.id} connected`);
     
     socket.on('SEND_MESSAGE', (data) => {
+        let time = new Date();
+        data.time = time.toLocaleString('en', options),
         log.push(data);
+        console.log(data);
         io.emit('RECEIVE_MESSAGE', data);
-        if (data.message === 'wtf'){
-            let time = new Date();
+        if (data.message === 'wtf'){  
+            let time = new Date();       
             io.emit('RECEIVE_MESSAGE', {
                 time: time.toLocaleString('en', options),
-                from: 'bot',
+                from: 'Bot',
                 message: 'whats up bro\nhello',
             });
         }
