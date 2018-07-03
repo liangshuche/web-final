@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 import axios from 'axios';
 import './Messenger.css';
-
+//import './Style.css';
 const $ = require('jquery');
 
 class MessengerPage extends Component {

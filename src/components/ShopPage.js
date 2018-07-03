@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import './ShopPage.css';
+import './Style.css';
 
 let errBar = '';
 class ShopPage extends Component {

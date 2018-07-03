@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import './CartPage.css';
 
 
 class CartPage extends Component {
@@ -90,7 +89,7 @@ class CartPage extends Component {
         for(let i=0; i<this.state.cart.length; ++i){
             let food_order =
                 <li class="list-group-item">
-                    <div class='container container_food'>
+                    <div class='container' style={{hight: 50}}>
                         <div class="row">
                             <div class="col-6 text-left">
                                 {this.state.cart[i].name}
@@ -133,7 +132,7 @@ class CartPage extends Component {
                         </select>
                     </div>
                     <div class="col-2">
-                        <div class="alert alert-light text-right sum-box">
+                        <div class="alert alert-light text-right sum-box" style={{fontSize: 20, color: 'black', padding: 5}}>
                             Total: {sum} USD
                         </div>
                     </div>
