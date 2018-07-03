@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import './CartPage.css';
+
+
 class CartPage extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +21,6 @@ class CartPage extends Component {
         this.getCartItems();
     }
     getCartItems(){
-        console.log('called')
         axios.get('/api/cart', {
             params: {
                 account: this.props.account,
@@ -26,6 +28,7 @@ class CartPage extends Component {
         })
             .then(res => {
                 this.setState({ cart: res.data });
+                console.log(res.data);
             })
             .catch(function (err) {
                 console.log(err);
@@ -82,17 +85,37 @@ class CartPage extends Component {
         if (this.state.redirect) {
             return <Redirect push to ='/account'/>;
         }
-        let list = [];
-        for (let i=0; i<this.state.cart.length; ++i){
-            list.push(
-                <div>
-                    <h6>{this.state.cart[i].food}: #{this.state.cart[i].quantity}  price:{this.state.cart[i].price}</h6>
-                </div>
-            );
-        }
+        var food_orders = [];
+        for(let i=0; i<this.state.cart.length; ++i){
+            let food_order =
+                <li class="list-group-item align-middle align-self-center">
+                    <div class='container container_food align-middle '>
+                        <div class="row align-self-center">
+                            <div class="col-3 col-3-mid">
+                                {this.state.cart[i].food_name}
+                            </div>
+                            <div class="col-4 align-self-center">
+                                <div>{this.state.cart[i].price} USD</div>
+                            </div>
+                            <div class="col-5 align-self-center">
+                                <div class="form-group align-self-bottom">
+                                    <input type="text" class="form-control align-self-center" id="quantity" placeholder={this.state.cart[i].quantity}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            ;
+            food_orders.push(food_order);
+                
+            }
         return (
             <div>
-                {list}
+                <div class="col-md-5 col-md-push-7">
+                <ul class='list-group list-group-flush align-self-center'>
+                {food_orders}
+                </ul>
+                </div>
                 <div className='form-row fixed-bottom'>
                     <div class="form-group col-4">
                         <select class="form-control" value={this.state.deliver} onChange={this.handleOnChange}>

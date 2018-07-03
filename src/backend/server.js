@@ -90,7 +90,65 @@ var u = new Order({
     }).catch((err) => {console.log(err);});
 }).catch((err) => {console.log(err);});
 
+<<<<<<< d1d785a5a93358d249a25a7e9261ecab5a31068b
 */
+=======
+//     promise.then(function (posts){
+//         posts.forEach(function(post){
+//             console.log(posts)
+//         });		
+//     }).catch((err) => {console.log(err);});
+// }).catch((err) => {console.log(err);});
+
+
+
+const userList = [
+    { account: 'admin', password: '123' , age: '20', manage: 'shop1', cart: [], order: []},
+    { account: 'tony' , password: '123', age: '21', cart: [{
+        food_name: 'rice',
+        price: 1000,
+        quantity: 5,
+    },{
+        food_name: 'chicken',
+        price: 200,
+        quantity: 5,
+    },{
+        food_name: 'dinner',
+        price: 100,
+        quantity: 9,
+    }], order: []}
+];
+const rice = {
+    name: 'rice',
+    price: 100,
+};
+
+const meat = {
+    name: 'meat',
+    price: 10,
+};
+
+const coke = {
+    name: 'coke',
+    price: 1000,
+};
+
+const shop1 = {
+    name:'活大自助餐',
+    rate: 0.5,
+    img: 'https://uploadfile.huiyi8.com/2015/1201/20151201054035448.jpg',
+    food: [rice, meat],
+};
+
+const shop2 = {
+    name: '胖老爹',
+    rate: 5,
+    img: 'https://picdn.gomaji.com/products/918/182918/182918_1_1_r.jpg',
+    food: [meat, coke],
+};
+
+const shoplist = [shop1, shop2];
+>>>>>>> CartPage UI 30%
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
     console.log('server is running on port ' + port);
