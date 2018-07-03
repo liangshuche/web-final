@@ -95,7 +95,7 @@ class RegisterPage extends Component {
                         this.setState({ redirect: true });
                     }
                     else {
-                        this.setState({ error: true });
+                        this.setState({ account_exist: true });
                     }
                 })
                 .catch(function (err) {

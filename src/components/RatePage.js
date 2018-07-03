@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-class OrderPage extends Component {
+class RatePage extends Component {
     constructor(props) {
         super(props);
         this.state={
@@ -17,7 +17,7 @@ class OrderPage extends Component {
             }
         })
             .then(res => {
-                if (res.data.status === 'success') {
+                if (res.data.success) {
                     this.setState( {rate: res.data.rate });
                 }
                 else {
@@ -49,7 +49,7 @@ class OrderPage extends Component {
     }
 
     handleSubmit() {
-        axios.get('http://localhost:5000/updaterate', {
+        axios.get('/api/updaterate', {
             params: {
                 account: this.props.account,
                 id: this.props.id,
@@ -57,7 +57,7 @@ class OrderPage extends Component {
             }
         })
             .then((res) => {
-                if (res.data.status === 'success'){
+                if (res.data.success){
                     this.setState({ redirect: true });
                 }
                 else {
@@ -85,4 +85,4 @@ class OrderPage extends Component {
     }
 }
 
-export default OrderPage;
+export default RatePage;

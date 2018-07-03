@@ -10,9 +10,6 @@ class OrderPage extends Component {
             content: '',
             rate: 0,
         };
-        if (!this.state.account){
-            this.setState({ account: 'anonymous'});
-        }
         axios.get('/api/order', {
             params: {
                 account: this.props.account,
@@ -20,7 +17,7 @@ class OrderPage extends Component {
             }
         })
             .then(res => {
-                if (res.data.status === 'success') {
+                if (res.data.success) {
                     this.setState({
                         content: res.data.content,
                         rate: res.data.rate,
@@ -41,7 +38,7 @@ class OrderPage extends Component {
             let item = this.state.content[i];
             list.push(
                 <div>
-                    <h6>{item.quantity} X {item.food} = {item.price*item.price}</h6>
+                    <h6>{item.quantity} X {item.name} = {item.quantity*item.price}</h6>
                 </div>
             );
         }

@@ -66,7 +66,7 @@ class CartPage extends Component {
             }
         })
             .then((res) => {
-                if (res.data.success === true){
+                if (res.data.success){
                     this.setState({ cart: [] });
                 }
                 else {

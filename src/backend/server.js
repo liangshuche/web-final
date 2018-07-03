@@ -41,7 +41,8 @@ const UserSchema = new Schema({
     password: String,
     age: String,
     cart: [],
-    order: []
+    order: [],
+    manage: String,
 });
 
 var FoodSchema = new Schema({
@@ -66,18 +67,25 @@ var OrderSchema = new Schema({
     shop: [Schema.Types.ObjectId]
 });
 
+var MessageSchema = new Schema({
+    from: String,
+    time: String,
+    message: String,
+})
+
 var User  = mongoose.model('Users' , UserSchema);
 var Food  = mongoose.model('Foods' , FoodSchema);
 var Shop  = mongoose.model('Shops' , ShopSchema);
 var Order = mongoose.model('Orders', OrderSchema);
-
+var Message = mongoose.model('Messages', MessageSchema);
+/*
 var u = new Order({
     rate: 5,
     deliver: 'delivered',
     content: [],
     shop:[],
 });
-/*
+
  u.save().then(() => {
      var query = Order.find();
 
@@ -127,16 +135,27 @@ app.post('/api/login', function(req, res){
 });
 
 app.post('/api/register', function(req, res){
-    userList.push({
-        account: req.body.account,
-        password: req.body.password,
-        age: req.body.age,
-        cart: [],
-        order: [],
+    var query = User.find({account: req.body.account});
+    query.exec().then(function (accounts){
+        if (accounts.length){
+            res.send({valid: false});
+        }
+        else {
+            var newAccount = new User({
+                account: req.body.account,
+                password: req.body.password,
+                age: req.body.age,
+                cart: [],
+                order: [],
+                manage: '',
+            });
+            newAccount.save().then(() => {
+                res.send({valid: true});
+            }).catch((err) => {console.log(err)});
+        }
     });
-    res.send({valid: true});
-    console.log(userList);
 });
+
 app.get('/api/shop', function(req, res){
     let food_list = [];
     let shop_img = '';
@@ -192,137 +211,108 @@ app.get('/api/cart', function(req, res){
 });
 
 app.get('/api/checkout', function(req, res){
+    let thisorder = '';
     var query = User.findOne({ account: req.query.account });
     query.exec().then(function(account){
-        let thisorder = {
+        thisorder = {
             id: (account.order.length+1).toString(),
             content: account.cart,
             rate: 0,
             deliver: req.query.deliver,
         };
         console.log(thisorder);
-        var query_order = User.findOneAndUpdate({account: req.query.account}, {$set: {order: thisorder}, $set: {cart: []}},{new: true});
-        query_order.exec().then(function(){
-
+    }).then(function(){
+        var query_2 = User.findOneAndUpdate({account: req.query.account},{$set: {cart: []}, $push: {order: thisorder}}, {new: true});
+        query_2.exec().then(function(){
             res.send( {success: true });
-        }).catch(res.send( {success: false} ));
+        }).catch(function(err){
+            res.send( {success: false });
+        });
     });
+    
 });
 
 app.get('/api/clearcart', function(req, res){
-    let account = userList.find(function(e) {
-        return e.account === req.query.account;
+    var query = User.findOneAndUpdate({account: req.query.account},{$set: {cart: []}}, {new: true});
+    query.exec().then(function(account){
+        res.send( {success: true });
+    }).catch(function(err){
+        res.send( {success: false });
     });
-    console.log(account);
-    if (account) {
-        account.cart = [];
-        res.send( {success: true} );
-    }
-    else {
-        res.send('error');
-    }
 });
 
 app.get('/api/account', function(req, res){
-    res.send([
-        {
-            id: 1,
-            content: [
-                {
-                    "name": "New Orlean Chicken",
-                    "price": "60",
-                    "quantity": 1
-                },
-                {
-                    "name": "Beef",
-                    "price": "600",
-                    "quantity": 3
-                }
-            ],
-            rate: 0,
-            deliver: '電機一館',
-        },
-        {
-            id: 2,
-            content: [
-                {
-                    "name": "rice",
-                    "price": "1000",
-                    "quantity": 5
-                }
-            ],
-            rate: 0,
-            deliver: '電機一館',
-        }
-    ]);
+    var query = User.findOne({ account: req.query.account });
+    query.exec().then(function(account){
+        res.send( account.order );
+    }).catch(function(err){
+        console.log(err);
+    });
 });
 
 app.get('/api/order', function(req, res){
-    let account = userList.find(function(e) {
-        return e.account === req.query.account;
-    });
-    let order = account.order.find(function(e){
-        console.log(e);
-        return e.id === req.query.id;
-    });
-    console.log(order);
-    if (order) {
-        res.send({
-            content: order.content,
-            rate: order.rate,
-            status: 'success',
+    var query = User.findOne({ account: req.query.account });
+    query.exec().then(function(account){
+        let order = account.order.find(function(e){
+            return e.id === req.query.id;
         });
-    }
-    else {
-        res.send('error');
-    }
+        if (order){
+            res.send({
+                content: order.content,
+                rate: order.rate,
+                success: true,
+            });
+        } else {
+            res.send( {success: false});
+        }
+    });
 });
 
 app.get('/api/rate', function(req, res){
-    let account = userList.find(function(e) {
-        return e.account === req.query.account;
-    });
-    let order = account.order.find(function(e){
-        console.log(e);
-        return e.id === req.query.id;
-    });
-    console.log(order);
-    if (order) {
-        res.send({
-            rate: order.rate,
-            status: 'success',
+    var query = User.findOne({ account: req.query.account });
+    query.exec().then(function(account){
+        let order = account.order.find(function(e){
+            return e.id === req.query.id;
         });
-    }
-    else {
-        res.send('error');
-    }
+        if (order){
+            res.send({
+                rate: order.rate,
+                success: true,
+            });
+        } else {
+            res.send( {success: false});
+        }
+    });
 });
 
 app.get('/api/updaterate', function(req, res){
-    let account = userList.find(function(e) {
-        return e.account === req.query.account;
-    });
-    let order = account.order.find(function(e){
-        console.log(e);
-        return e.id === req.query.id;
-    });
-    console.log(order);
-    if (order) {
-        order.rate = req.query.rate;
-        res.send({
-            status: 'success',
+    var query = User.findOne({ account: req.query.account });
+    query.exec().then(function(account){
+        let orders = account.order;
+        let order = orders.find(function(e){
+            return e.id === req.query.id;
         });
-        console.log(account);
-    }
-    else {
-        res.send('error');
-    }
+        order.rate = req.query.rate;
+        var query_account = User.findOneAndUpdate({ account: req.query.account }, {$set: {order: orders}}, {new: true});   
+        query_account.exec().then(function(){
+            res.send( {success: true} );
+        }).catch(function(){
+            res.send( {success: false} );
+        });
+    });
 });
 
 app.get('/api/messenger', function(req, res){
-    res.send({
-        log: log
+    var query = Message.find({}).sort({time: 1});
+    var log = []
+    query.exec().then(function(messages){
+        messages.forEach(function(message){
+            log.push(message);
+        })
+    }).then(function(){
+        res.send({ log: log });
     });
+    
 });
 
 app.get('/api/manage', function(req, res){
@@ -336,22 +326,24 @@ var options = {
     hour12: false,
 };
 
-/*
+
 io.on('connection', (socket) => {
     console.log(`Socket ID: ${socket.id} connected`);
     
     socket.on('SEND_MESSAGE', (data) => {
         let time = new Date();
         data.time = time.toLocaleString('en', options);
+        var newMessage = new Message({
+            from: data.from,
+            time: time.toLocaleString('en', options),
+            message: data.message,
+        });
+        newMessage.save().then(() => {
+            io.emit('RECEIVE_MESSAGE', data);
 
-        log.push(data);
-        console.log(data);
-
-        io.emit('RECEIVE_MESSAGE', data);
-
-        
+        }).catch((err) => {console.log(err)});
     });
 });
 
-*/
+
 
