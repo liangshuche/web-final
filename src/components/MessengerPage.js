@@ -6,6 +6,7 @@ import './Style.css';
 
 const $ = require('jquery');
 
+
 class MessengerPage extends Component {
     constructor(props) {
         super(props);
@@ -17,6 +18,17 @@ class MessengerPage extends Component {
 
         axios.get('/api/messenger')
             .then(res => {
+                let time = new Date();
+                let greet = {
+                    from: 'Bot',
+                    timestr: time.toLocaleString('en', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false,
+                    }),
+                    message: '不知道吃什麼嗎?\n輸入 "hi bot" 讓我們幫助你'
+                };
+                res.data.log.push(greet);
                 this.setState({ log: res.data.log });
             })
             .then(() => {
@@ -33,6 +45,7 @@ class MessengerPage extends Component {
         this.socket = io();
         this.socket.on('RECEIVE_MESSAGE', (data) => {
             loadMessage(data);
+            console.log(data);
             $('.chat-log').scrollTop(100000);
 
             //$('.chat-log').animate({ scrollTop: this.state.log.length * 300 }, 20);
@@ -83,7 +96,7 @@ class MessengerPage extends Component {
                         <span className="Message-to-box">
                             {this.state.log[i].message}
                         </span>
-                        <p className="time-str">{this.state.log[i].time+' '+this.state.log[i].from}</p>
+                        <p className="time-str">{this.state.log[i].timestr+' '+this.state.log[i].from}</p>
                     </div>
                 );
             } else if (this.state.log[i].from === 'Bot'){
@@ -92,9 +105,9 @@ class MessengerPage extends Component {
                         <span className="Message-bot-box">
                             {this.state.log[i].message}
                         </span>
-                        <p className="time-str">{this.state.log[i].time+' '+this.state.log[i].from}</p>
+                        <p className="time-str">{this.state.log[i].timestr+' '+this.state.log[i].from}</p>
                     </div>
-                )
+                );
             }
             else {
                 log.push(
@@ -102,7 +115,7 @@ class MessengerPage extends Component {
                         <span className="Message-from-box">
                             {this.state.log[i].message}
                         </span>
-                        <p className="time-str">{this.state.log[i].time+' '+this.state.log[i].from}</p>
+                        <p className="time-str">{this.state.log[i].timestr+' '+this.state.log[i].from}</p>
                     </div>
                 );
             }

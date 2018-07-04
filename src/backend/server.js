@@ -68,6 +68,7 @@ var OrderSchema = new Schema({
 var MessageSchema = new Schema({
     from: String,
     time: String,
+    timestr: String,
     message: String,
 })
 
@@ -75,7 +76,7 @@ var User  = mongoose.model('Users' , UserSchema);
 var Food  = mongoose.model('Foods' , FoodSchema);
 var Shop  = mongoose.model('Shops' , ShopSchema);
 var Order = mongoose.model('Orders', OrderSchema);
-var Message = mongoose.model('Messages', MessageSchema);
+var Message = mongoose.model('Messages_new', MessageSchema);
 /*
 var u = new Order({
     rate: 5,
@@ -301,7 +302,7 @@ app.get('/api/updaterate', function(req, res){
 });
 var logs = [];
 app.get('/api/messenger', function(req, res){
-    /*
+    
     var query = Message.find({}).sort({time: 1});
     var log = []
     query.exec().then(function(messages){
@@ -309,13 +310,8 @@ app.get('/api/messenger', function(req, res){
             log.push(message);
         })
     }).then(function(){
-        console.log('logs',logs);
-        res.send({ log: logs });
-    });
-    */
-    console.log('logs', logs);
-    res.send({log: logs});
-    
+        res.send({ log: log });
+    }); 
 });
 
 app.get('/api/manage', function(req, res){
@@ -336,16 +332,91 @@ io.on('connection', (socket) => {
     console.log(`Socket ID: ${socket.id} connected`);
     
     socket.on('SEND_MESSAGE', (data) => {
+        console.log(data);
+        let time = new Date();       
+        let dataMessage = new Message({
+            from: data.from,
+            timestr: time.toLocaleString('en', options),
+            time: Date(),
+            message: data.message,
+        });
+
+        
+        dataMessage.save().then(() => {
+            io.emit('RECEIVE_MESSAGE', dataMessage);
+            let promises = [];
+            let message_bot = '';
+            if (data.message.includes('hi bot')){
+                message_bot = 'Welcome to EEat\n options: \n1:EE找餐廳 \n2:EE找美食 \n3:EE吃什麼\n';
+            }
+            else if (data.message === '1'){
+                var query = Shop.find();
+	        	var promise = (
+                    query.exec().then(function (shops){
+			        shops.forEach(function(shop){
+                            console.log(shop.name)
+                            message_bot += String(shop.name);
+                            message_bot += '\n';
+			            })
+		            }));
+                promises.push(promise);
+            }
+            else if (data.message === '2'){
+                message_bot = '請問要找什麼食物？ \n2A:速食 \n2B:飲料 \n2C: 其他';
+            }
+            else if (data.message === '2A'){
+                message_bot = '速食餐廳有： \n吉野家\n麥當勞\n胖老爹\npizza hut';
+            }
+            else if (data.message === '2B'){
+                message_bot = '飲料店有： \n星巴克';
+            }
+            else if (data.message === '2C'){
+                message_bot = '剩鼎泰豐，你吃不起';
+            }
+            else if (data.message === '3'){
+                message_bot = '請問你有選擇障礙ㄇ 我來幫你選餐廳...';
+                ran = Math.floor(Math.random() * 6);
+                shops_ = ['鼎泰豐', 'pizza_hut', 'Starbucks', '麥當勞', '胖老爹', '吉野家'];
+                choice = shops_[ran];
+                message_bot += '\n你吃';
+                message_bot += choice;
+                message_bot += '好了';
+            }
+            Promise.all(promises).then(function(){
+                if (message_bot !== ''){
+                    var newMessage = new Message({
+                        from: 'Bot',
+                        timestr: time.toLocaleString('en', options),
+                        time: Date(),
+                        message: message_bot,
+                    });
+                    newMessage.save().then(function(){
+                        io.emit('RECEIVE_MESSAGE', newMessage);
+                    });
+                }
+            });
+        }); 
+    });
+});
+/*
+io.on('connection', (socket) => {
+    console.log(`Socket ID: ${socket.id} connected`);
+    
+    socket.on('SEND_MESSAGE', (data) => {
         let time = new Date();       
         var promises = [];
         var dataMessage = new Message({
             from: data.from,
-            time: time.toLocaleString('en', options),
+            timestr: time.toLocaleString('en', options),
+            time: Date(),
             message: data.message,
         });
 
         io.emit('RECEIVE_MESSAGE', dataMessage);
         dataMessage.save().then(() => {
+            if (data.message.includes('hi bot')){
+                
+            }
             logs.push(data.message);
         }); 
         var message_bot = "";
@@ -365,33 +436,30 @@ io.on('connection', (socket) => {
             });
 
         }
-        else if (data.message.includes('account')) {
-            console.log(data.message);
-        }
 
-    else {
+        else {
         
-        switch (data.message){
+            switch (data.message){
             case '1':
                 message_bot = "";
 
-	        	var query = Shop.find();
+                var query = Shop.find();
 	        	var promise = (
                     query.exec().then(function (shops){
 			        shops.forEach(function(shop){
-                        console.log(shop.name)
-                        message_bot += String(shop.name);
-                        message_bot += '\n';
+                            console.log(shop.name)
+                            message_bot += String(shop.name);
+                            message_bot += '\n';
 			            })
 		            })
-                    .then(() => {
-                        io.emit('RECEIVE_MESSAGE', {
-                        time: time.toLocaleString('en', options),
-                        from: 'Bot',
-                        message: message_bot,
-                        });
-                    } 
-                    ).catch((err) => {console.log(err)})
+                        .then(() => {
+                            io.emit('RECEIVE_MESSAGE', {
+                                time: time.toLocaleString('en', options),
+                                from: 'Bot',
+                                message: message_bot,
+                            });
+                        } 
+                        ).catch((err) => {console.log(err)})
                 );
                 promises.push(promise);
  
@@ -420,24 +488,24 @@ io.on('connection', (socket) => {
                 break;
             default:
                 message_bot = 'Welcome to EEat\n options: \n1:EE找餐廳 \n2:EE找美食 \n3:EE吃什麼\n';            
-        }
-        var newMessage = new Message({
-            from: 'Bot',
-            time: time.toLocaleString('en', options),
-            message: message_bot,
-        })
-        io.emit('RECEIVE_MESSAGE', newMessage);
-        Promise.all(promises).then(
-
-            newMessage.save().then(() => {
-                logs.push(message_bot);
+            }
+            var newMessage = new Message({
+                from: 'Bot',
+                time: time.toLocaleString('en', options),
+                message: message_bot,
             })
-        );
+            io.emit('RECEIVE_MESSAGE', newMessage);
+            Promise.all(promises).then(
 
-    }// else    
+                newMessage.save().then(() => {
+                    logs.push(message_bot);
+                })
+            );
+
+        }// else    
     });
 
-});
+});*/
 
 
 
