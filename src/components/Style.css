@@ -159,3 +159,8 @@
     padding-left: 10px;
     padding-right: 10px;
 }
+
+.text-vertical-center {
+    display: inline-block;
+    vertical-align: middle;
+}

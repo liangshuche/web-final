@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 class OrderPage extends Component {
     constructor(props) {
@@ -35,45 +35,101 @@ class OrderPage extends Component {
     }
 
     render() {
+        if (!this.props.account) {
+            return <Redirect push to ='/login'/>;
+        }
+        let sum = 0;
+        let button_text = ''; 
+        if (this.state.rate){
+            button_text = 'Rate: '+this.state.rate;
+        } else {
+            button_text = 'Rate This Order';
+        }
         let list = [];
         for (let i=0; i<this.state.content.length; ++i){
             let item = this.state.content[i];
+            sum += item.quantity*item.price;
             list.push(
-                <div>
-                    <h6>{item.quantity} X {item.name} = {item.quantity*item.price}</h6>
-                </div>
+                <li class="list-group-item">
+                    <div class="margin-top">
+                        <div class='container'>
+                            <div class="row text-right">
+                                <div class="col-4">
+                                    <h6>{item.name}</h6>
+                                </div>
+                                <div class="col-2">
+                                    <h6>{item.price}</h6>
+                                </div>
+                                <div class="col-2">
+                                    <h6>{item.quantity}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <h6>{item.quantity*item.price}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>  
             );
         }
         return (
             <div class="row">
                 <div class="col col-lg-7 margin-left margin-top">
-                    <h3>訂單內容</h3>
+                    <div class='row'>
+                        <div class='col-4'>
+                            <h3>訂單內容 #{this.state.id}</h3>
+                        </div>
+                        <div class='col-4'>
+                        </div>
+                        <div class='col-4'>
+                            <Link to={'/account/'+this.state.id+'/rate'}><button className='btn btn-secondary float-right'>{button_text}</button></Link>
+                        </div>
+                    </div>
                     <ul class='list-group list-group-flush margin-top'>
                         <li class="list-group-item">
                             <div class="margin-top">
                                 <div class='container'>
-                                    <div class="row">
-                                        <div class="col-lg-2">
-                                            <h6>第{this.state.id}號訂單</h6>
+                                    <div class="row text-right">
+                                        <div class="col-4">
+                                            <h6>商品名稱</h6>
                                         </div>
-                                        <div class="col-lg-3">
-                                            <h6>Rate:{this.state.rate}</h6>
+                                        <div class="col-2">
+                                            <h6>價格</h6>
                                         </div>
-                                        <div class="col-md-4">
-                                            <h6>Deliver To: {this.state.dest}</h6>
+                                        <div class="col-2">
+                                            <h6>數量</h6>
                                         </div>
-                                        <div class="col col-lg-3">
-                                        <Link to={'/account/'+this.state.id+'/rate'}><button className='btn btn-secondary'>Rate this oreder</button></Link>
+                                        <div class="col-4">
+                                            <h6>總額</h6>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {list}  
+                        <li class="list-group-item">
+                            <div class="margin-top">
+                                <div class='container'>
+                                    <div class="row text-right">
+                                        <div class="col-4">
+                                            <h5>Deliver To: {this.state.dest}</h5>
+                                        </div>
+                                        <div class="col-4"></div>
+                                        <div class="col-4">
+                                            <h5>{sum}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <br/>
+                    <div class='row'>
+                        <div class='col-8'></div>
+                        <div class='col-4'>
+                            <Link to='/account/'><button class='btn btn-secondary float-right'>返回帳戶</button></Link>
+                        </div>
                     </div>
-                </div>
-            </div>
-            </li>  
-                    </ul>
-                </div>
-                <div class="col-lg-4">
-                    <ul class='list-group list-group-flush'>
-                    </ul>
                 </div>
             </div>
         );

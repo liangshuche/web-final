@@ -37,6 +37,7 @@ class ShopPage extends Component {
             });
         this.handleAdd = this.handleAdd.bind(this);
         this.handleQuantity = this.handleQuantity.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
         this.handleCheckout = this.handleCheckout.bind(this);
     }
     handleAdd(e) {
@@ -61,7 +62,7 @@ class ShopPage extends Component {
         let idx = this.state.cart.findIndex(function(o) {
             return o.name === e.name;
         });
-        if (idx >= 0){
+        if (idx > -1){
             let cart = this.state.cart;
             cart[idx].quantity = e.quantity;
             this.setState( {cart: cart} );
@@ -69,6 +70,16 @@ class ShopPage extends Component {
         console.log(this.state.cart);
     }
 
+    handleRemove(e) {
+        let idx = this.state.cart.findIndex(function(o) {
+            return o.name === e.name;
+        });
+        if (idx > -1){
+            var newCart = this.state.cart;
+            newCart.splice(idx, 1);
+            this.setState( {cart: newCart} );
+        }
+    }
     handleCheckout() {
         if (!this.props.account){
             this.setState( {nologin: true });
@@ -86,7 +97,7 @@ class ShopPage extends Component {
                         this.setState({ redirect: true });
                     }
                     else {
-                        <alert>Something Went Wrong...</alert>
+                        <alert>Something Went Wrong...</alert>;
                     }
                 })
                 .catch(function (err) {
@@ -121,7 +132,7 @@ class ShopPage extends Component {
 
         var food_orders = [];
         for(let i=0; i<this.state.cart.length; ++i){
-            food_orders.push(<FoodOrderItem name={this.state.cart[i].name} price={this.state.cart[i].price} quantity={this.state.cart[i].quantity} handleQuantity={this.handleQuantity}/>)
+            food_orders.push(<FoodOrderItem name={this.state.cart[i].name} price={this.state.cart[i].price} quantity={this.state.cart[i].quantity} handleQuantity={this.handleQuantity} handleRemove={this.handleRemove}/>);
         }
 
 
@@ -131,7 +142,9 @@ class ShopPage extends Component {
                 <div class="card-body was-validated">
                     <h2 class="card-title" id="shopname">{this.state.shopname}</h2>
                     <label for="shopname">Rate: {this.state.rate}</label>
-                    {food_orders}
+                    <ul class='list-group list-group-flush'>
+                        {food_orders}
+                    </ul>
                     <div>{errBar}</div>
                     <a class="btn btn-secondary btn-lg btn-block" onClick={this.handleCheckout}>結一波</a>
                 </div>
@@ -195,9 +208,10 @@ class FoodOrderItem extends Component {
         super(props);
         this.state = {
             quantity: 1,
-        }
+        };
 
         this.handleOnChange = this.handleOnChange.bind(this);
+        this.handleOnClick = this.handleOnClick.bind(this);
     }
 
 
@@ -208,34 +222,39 @@ class FoodOrderItem extends Component {
             quantity: parseInt(ev.target.value),
         });
     }
+    handleOnClick() {
+        this.props.handleRemove({
+            name: this.props.name,
+        });
+    }
     
   
     render() {
         return (
             <li class="list-group-item">
 
-                    <div class="row">
-                        <div class="col-1">
-                            <a class="btn" onClick={this.handleOnClick}>x </a>
-                        </div>
-                        <div class="col-4 food-name align-middle">
-                            <h6>{this.props.name}</h6>
-                        </div>
-                        <div class="col-2">
-                            <h6>{this.props.price}</h6>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <select class="form-control" value={this.state.quantity} onChange={this.handleOnChange}>
-                                    <option value='1'>1</option>
-                                    <option value='2'>2</option>
-                                    <option value='3'>3</option>
-                                    <option value='4'>4</option>
-                                    <option value='5'>5</option>
-                                </select>
-                            </div>
+                <div class="row">
+                    <div class="col-2">
+                        <h6 class="btn" onClick={this.handleOnClick}>x</h6> 
+                    </div>
+                    <div class="col-4">
+                        <h6>{this.props.name}</h6>
+                    </div>
+                    <div class="col-3">
+                        <h6>{this.props.price}</h6>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <select class="form-control" value={this.state.quantity} onChange={this.handleOnChange}>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
                         </div>
                     </div>
+                </div>
                 
             </li>
         );

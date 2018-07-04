@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 
 class RatePage extends Component {
@@ -99,6 +98,9 @@ class RatePage extends Component {
     }
 
     render() {
+        if (!this.props.account) {
+            return <Redirect push to ='/login'/>;
+        }
         if (this.state.redirect) {
             return <Redirect push to={'/account/'+this.props.id}/>;
         }
@@ -108,36 +110,39 @@ class RatePage extends Component {
                 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"/>
                 <h2 class="center">Rate Now</h2>
                 <br/>
-                    <div class="center">
-                        <button class="btn btn-star " onClick={this.handle1}>{
-                                                                                        this.state.rate>=1
-                                                                                        ? <i class="fas fa-star"></i>
-                                                                                        : <i class="far fa-star"></i>
-                                                                                    }</button>
-                        <button class="btn btn-star margin-minileft" onClick={this.handle2}>{
-                                                                                        this.state.rate>=2
-                                                                                        ? <i class="fa fa-star"></i>
-                                                                                        : <i class="far fa-star"></i>
-                                                                                    }</button>
-                        <button class="btn btn-star margin-minileft" onClick={this.handle3}>{
-                                                                                        this.state.rate>=3
-                                                                                        ? <i class="fa fa-star"></i>
-                                                                                        : <i class="far fa-star"></i>
-                                                                                    }</button>
-                        <button class="btn btn-star margin-minileft" onClick={this.handle4}>{
-                                                                                        this.state.rate>=4
-                                                                                        ? <i class="fa fa-star"></i>
-                                                                                        : <i class="far fa-star"></i>
-                                                                                    }</button>
-                        <button class="btn btn-star margin-minileft" onClick={this.handle5}>{
-                                                                                        this.state.rate>=5
-                                                                                        ? <i class="fa fa-star"></i>
-                                                                                        : <i class="far fa-star"></i>
-                                                                                    }</button>
+                <div class="center">
+                    <button class="btn btn-star " onClick={this.handle1}>{
+                        this.state.rate>=1
+                            ? <i class="fas fa-star"></i>
+                            : <i class="far fa-star"></i>
+                    }</button>
+                    <button class="btn btn-star margin-minileft" onClick={this.handle2}>{
+                        this.state.rate>=2
+                            ? <i class="fa fa-star"></i>
+                            : <i class="far fa-star"></i>
+                    }</button>
+                    <button class="btn btn-star margin-minileft" onClick={this.handle3}>{
+                        this.state.rate>=3
+                            ? <i class="fa fa-star"></i>
+                            : <i class="far fa-star"></i>
+                    }</button>
+                    <button class="btn btn-star margin-minileft" onClick={this.handle4}>{
+                        this.state.rate>=4
+                            ? <i class="fa fa-star"></i>
+                            : <i class="far fa-star"></i>
+                    }</button>
+                    <button class="btn btn-star margin-minileft" onClick={this.handle5}>{
+                        this.state.rate>=5
+                            ? <i class="fa fa-star"></i>
+                            : <i class="far fa-star"></i>
+                    }</button>
 
                 </div>                                                       
                 <br/>
-                <Link to={'/account/'}><button className='btn btn-secondary center' onClick={this.handleSubmit}>Submit</button></Link>
+                <button className='btn btn-secondary center' onClick={this.handleSubmit}>儲存</button>
+                <br/>
+                <Link to={'/account/'+this.props.id}><button className='btn btn-secondary center'>回到訂單</button></Link>
+
             </div>
         );
     }

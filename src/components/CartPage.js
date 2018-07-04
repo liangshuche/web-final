@@ -11,9 +11,11 @@ class CartPage extends Component {
             cart: [],
             redirect: false,
             deliver: '',
+            check: false,
         };
 
         this.getCartItems = this.getCartItems.bind(this);
+        this.handleCheck = this.handleCheck.bind(this);
         this.handleOnClick = this.handleOnClick.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClear = this.handleClear.bind(this);
@@ -33,6 +35,9 @@ class CartPage extends Component {
             .catch(function (err) {
                 console.log(err);
             });
+    }
+    handleCheck(){
+        this.setState( {check: !this.state.check });
     }
     handleOnClick(){
         axios.get('/api/checkout', {
@@ -122,6 +127,7 @@ class CartPage extends Component {
                 <div class="col-lg-4">
                     <ul class='list-group list-group-flush'>
                         <div class="card card-shop center">
+                            <br/>
                             <img class="card-img-top center" src={deliver} style={{maxWidth:200}}  alt="no internet"/>
                             <div class="card-body was-validated center">
                                 <select class="form-control" value={this.state.deliver} onChange={this.handleOnChange}>
@@ -134,13 +140,13 @@ class CartPage extends Component {
                                 <br/>
                                 <h8 class="card-title" id="user">確認付款後將會立即幫您派送餐點。</h8>
                                 <div class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="customControlValidation1" required></input>
+                                    <input type="checkbox" class="custom-control-input" onClick={this.handleCheck} id="customControlValidation1" required></input>
                                     <label class="custom-control-label" for="customControlValidation1"><small>我已詳閱公開說明書。</small></label>
                                     <div class="invalid-feedback"><small>母湯</small></div>
                                 </div>
-                                <a class="btn btn-danger btn-lg btn-block" onClick={this.handleOnClick} disabled={!this.state.deliver || this.state.cart.length === 0}>確認付款，共 {sum} USD</a> 
+                                <button class="btn btn-danger btn-lg btn-block" onClick={this.handleOnClick} disabled={!this.state.deliver || this.state.cart.length === 0 || !this.state.check}>確認付款，共 {sum} USD</button> 
                                 <br/>
-                                <a class="btn btn-secondary btn-lg btn-block" onClick={this.handleClear} disabled={this.state.cart.length === 0}>刪除訂單</a> 
+                                <button class="btn btn-secondary btn-lg btn-block" onClick={this.handleClear} disabled={this.state.cart.length === 0}>刪除訂單</button> 
                             </div>
                         </div>
                     </ul>
