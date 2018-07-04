@@ -162,7 +162,6 @@ app.get('/api/shop', function(req, res){
     var promises = [];
     var query = Shop.findOne({ name: req.query.shopname });
     query.exec().then(function(shop){
-        console.log(shop)
         shop_img = shop.img;
         shop_rate = shop.rate;
         for(let i=0;i<shop.foods.length;++i){
@@ -177,8 +176,6 @@ app.get('/api/shop', function(req, res){
         }
     }).then(function(){
         Promise.all(promises).then(function (){
-    
-            console.log(food_list);
             res.send({
                 food: food_list,
                 img: shop_img,
@@ -201,7 +198,6 @@ app.post('/api/addtocart', function(req, res){
 app.get('/api/cart', function(req, res){
     var query = User.findOne({ account: req.query.account });
     query.exec().then(function(account){
-        console.log(account);
         res.send(account.cart);
     }).catch(function(err){
         res.send('error');
@@ -332,7 +328,6 @@ io.on('connection', (socket) => {
     console.log(`Socket ID: ${socket.id} connected`);
     
     socket.on('SEND_MESSAGE', (data) => {
-        console.log(data);
         let time = new Date();       
         let dataMessage = new Message({
             from: data.from,
@@ -354,7 +349,6 @@ io.on('connection', (socket) => {
 	        	var promise = (
                     query.exec().then(function (shops){
 			        shops.forEach(function(shop){
-                            console.log(shop.name)
                             message_bot += String(shop.name);
                             message_bot += '\n';
 			            })
@@ -398,114 +392,3 @@ io.on('connection', (socket) => {
         }); 
     });
 });
-/*
-io.on('connection', (socket) => {
-    console.log(`Socket ID: ${socket.id} connected`);
-    
-    socket.on('SEND_MESSAGE', (data) => {
-        let time = new Date();       
-        var promises = [];
-        var dataMessage = new Message({
-            from: data.from,
-            timestr: time.toLocaleString('en', options),
-            time: Date(),
-            message: data.message,
-        });
-
-        io.emit('RECEIVE_MESSAGE', dataMessage);
-        dataMessage.save().then(() => {
-            if (data.message.includes('hi bot')){
-                
-            }
-            logs.push(data.message);
-        }); 
-        var message_bot = "";
-
-        console.log(data.message);
-        
-        if(data.message.includes('hi')){
-            message_bot = 'hihi';
-            var newMessage = new Message({
-                from: 'Bot',
-                time: time.toLocaleString('en', options),
-                message: message_bot,
-            })
-            io.emit('RECEIVE_MESSAGE', newMessage);
-            newMessage.save().then(() => {
-                logs.push(message_bot)
-            });
-
-        }
-
-        else {
-        
-            switch (data.message){
-            case '1':
-                message_bot = "";
-
-                var query = Shop.find();
-	        	var promise = (
-                    query.exec().then(function (shops){
-			        shops.forEach(function(shop){
-                            console.log(shop.name)
-                            message_bot += String(shop.name);
-                            message_bot += '\n';
-			            })
-		            })
-                        .then(() => {
-                            io.emit('RECEIVE_MESSAGE', {
-                                time: time.toLocaleString('en', options),
-                                from: 'Bot',
-                                message: message_bot,
-                            });
-                        } 
-                        ).catch((err) => {console.log(err)})
-                );
-                promises.push(promise);
- 
-
-                break;
-            case '2':
-                message_bot = '請問要找什麼食物？ \n2A:速食 \n2B:飲料 \n2C: 其他';
-                break;
-            case '2A':
-                message_bot = '速食餐廳有： \n吉野家\n麥當勞\n胖老爹\npizza hut';
-                break;
-            case '2B':
-                message_bot = '飲料店有： \n星巴克';
-                break;
-            case '2C':
-                message_bot = '剩鼎泰豐，你吃不起';
-                break;
-            case '3':
-                message_bot = '請問你有選擇障礙ㄇ 我來幫你選餐廳...';
-                ran = Math.floor(Math.random() * 6);
-                shops_ = ['鼎泰豐', 'pizza_hut', 'Starbucks', '麥當勞', '胖老爹', '吉野家'];
-                choice = shops_[ran];
-                message_bot += '\n你吃';
-                message_bot += choice;
-                message_bot += '好了';
-                break;
-            default:
-                message_bot = 'Welcome to EEat\n options: \n1:EE找餐廳 \n2:EE找美食 \n3:EE吃什麼\n';            
-            }
-            var newMessage = new Message({
-                from: 'Bot',
-                time: time.toLocaleString('en', options),
-                message: message_bot,
-            })
-            io.emit('RECEIVE_MESSAGE', newMessage);
-            Promise.all(promises).then(
-
-                newMessage.save().then(() => {
-                    logs.push(message_bot);
-                })
-            );
-
-        }// else    
-    });
-
-});*/
-
-
-
