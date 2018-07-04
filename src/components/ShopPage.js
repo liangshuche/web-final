@@ -25,7 +25,6 @@ class ShopPage extends Component {
             }
         })
             .then(res => {
-                console.log(res.data);
                 this.setState({ 
                     food: res.data.food,
                     img: res.data.img,
@@ -54,8 +53,6 @@ class ShopPage extends Component {
                 cart: [...this.state.cart, newitem]
             });
         }
-        
-        console.log(this.state.cart);
     }
 
     handleQuantity(e) {
@@ -67,7 +64,6 @@ class ShopPage extends Component {
             cart[idx].quantity = e.quantity;
             this.setState( {cart: cart} );
         }
-        console.log(this.state.cart);
     }
 
     handleRemove(e) {
@@ -87,7 +83,6 @@ class ShopPage extends Component {
             this.setState( {error: true });
         }
         else {
-            console.log('check out');
             axios.post('/api/addtocart', {
                 account: this.state.account,
                 cart: this.state.cart,

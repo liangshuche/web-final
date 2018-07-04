@@ -45,7 +45,6 @@ class MessengerPage extends Component {
         this.socket = io();
         this.socket.on('RECEIVE_MESSAGE', (data) => {
             loadMessage(data);
-            console.log(data);
             $('.chat-log').scrollTop(100000);
 
             //$('.chat-log').animate({ scrollTop: this.state.log.length * 300 }, 20);

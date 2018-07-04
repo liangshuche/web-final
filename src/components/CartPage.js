@@ -31,7 +31,6 @@ class CartPage extends Component {
         })
             .then(res => {
                 this.setState({ cart: res.data });
-                console.log(res.data);
             })
             .catch(function (err) {
                 console.log(err);
@@ -47,7 +46,7 @@ class CartPage extends Component {
     }
     handleOnClick(){
 
-        let cart = this.state.cart.filter(item => item.quantity !== 0);        console.log(cart);
+        let cart = this.state.cart.filter(item => item.quantity !== 0);
 
         axios.post('/api/checkout', {
             account: this.props.account,
