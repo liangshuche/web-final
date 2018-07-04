@@ -208,18 +208,18 @@ app.get('/api/cart', function(req, res){
 
 });
 
-app.get('/api/checkout', function(req, res){
+app.post('/api/checkout', function(req, res){
     let thisorder = '';
-    var query = User.findOne({ account: req.query.account });
+    var query = User.findOne({ account: req.body.account });
     query.exec().then(function(account){
         thisorder = {
             id: (account.order.length+1).toString(),
-            content: account.cart,
+            content: req.body.cart,
             rate: 0,
-            deliver: req.query.deliver,
+            deliver: req.body.deliver,
         };
     }).then(function(){
-        var query_2 = User.findOneAndUpdate({account: req.query.account},{$set: {cart: []}, $push: {order: thisorder}}, {new: true});
+        var query_2 = User.findOneAndUpdate({account: req.body.account},{$set: {cart: []}, $push: {order: thisorder}}, {new: true});
         query_2.exec().then(function(){
             res.send( {success: true });
         }).catch(function(err){

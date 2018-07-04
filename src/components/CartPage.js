@@ -15,11 +15,12 @@ class CartPage extends Component {
         };
 
         this.getCartItems = this.getCartItems.bind(this);
+        this.handleQuantityChange = this.handleQuantityChange.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
         this.handleOnClick = this.handleOnClick.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleClear = this.handleClear.bind(this);
-
+    
         this.getCartItems();
     }
     getCartItems(){
@@ -36,15 +37,22 @@ class CartPage extends Component {
                 console.log(err);
             });
     }
+    handleQuantityChange(e) {
+        let newCart = this.state.cart;
+        newCart[e.idx].quantity = e.quantity;
+        this.setState({cart: newCart});
+    }
     handleCheck(){
         this.setState( {check: !this.state.check });
     }
     handleOnClick(){
-        axios.get('/api/checkout', {
-            params: {
-                account: this.props.account,
-                deliver: this.state.deliver,
-            }
+
+        let cart = this.state.cart.filter(item => item.quantity !== 0);        console.log(cart);
+
+        axios.post('/api/checkout', {
+            account: this.props.account,
+            deliver: this.state.deliver,
+            cart: cart,
         })
             .then((res) => {
                 if (res.data.success === true){
@@ -63,7 +71,6 @@ class CartPage extends Component {
     handleOnChange(ev){
         this.setState( {deliver: ev.target.value} );
     }
-
     handleClear() {
         axios.get('/api/clearcart', {
             params: {
@@ -79,7 +86,7 @@ class CartPage extends Component {
                 }
             })
             .catch(function (err) {
-                console.log(err);
+                throw err;
             });
     }
 
@@ -93,25 +100,7 @@ class CartPage extends Component {
         let sum = 0;
         var food_orders = [];
         for(let i=0; i<this.state.cart.length; ++i){
-            let food_order =
-                <li class="list-group-item">
-                    <div class='container' style={{hight: 50}}>
-                        <div class="row">
-                            <div class="col-6 text-left">
-                                {this.state.cart[i].name}
-                            </div>
-                            <div class="col-3">
-                                <div>{this.state.cart[i].price} USD</div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group align-self-bottom">
-                                    <input type="text" class="form-control align-self-center" id="quantity" placeholder={this.state.cart[i].quantity}/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>;
-            food_orders.push(food_order);
+            food_orders.push(<CartItem name={this.state.cart[i].name} price={this.state.cart[i].price} quantity={this.state.cart[i].quantity} idx={i} handleQuantityChange={this.handleQuantityChange}/>);
             sum = sum + parseInt(this.state.cart[i].price)*parseInt(this.state.cart[i].quantity);
         }
 
@@ -144,7 +133,7 @@ class CartPage extends Component {
                                     <label class="custom-control-label" for="customControlValidation1"><small>我已詳閱公開說明書。</small></label>
                                     <div class="invalid-feedback"><small>母湯</small></div>
                                 </div>
-                                <button class="btn btn-danger btn-lg btn-block" onClick={this.handleOnClick} disabled={!this.state.deliver || this.state.cart.length === 0 || !this.state.check}>確認付款，共 {sum} USD</button> 
+                                <button class="btn btn-danger btn-lg btn-block" onClick={this.handleOnClick} disabled={!this.state.deliver || this.state.cart.length === 0 || !this.state.check || !sum}>確認付款，共 {sum} USD</button> 
                                 <br/>
                                 <button class="btn btn-secondary btn-lg btn-block" onClick={this.handleClear} disabled={this.state.cart.length === 0}>刪除訂單</button> 
                             </div>
@@ -165,3 +154,51 @@ class CartPage extends Component {
 }
 
 export default CartPage;
+
+class CartItem extends Component {
+    constructor(props){
+        super(props);
+        this.state= {
+            quantity: this.props.quantity,
+        };
+        this.handleOnChange = this.handleOnChange.bind(this);
+    }
+    handleOnChange(ev) {
+        if(ev.target.value === ''){
+            this.setState( {quantity: 0} );
+            this.props.handleQuantityChange({
+                idx: this.props.idx,
+                quantity: 0,
+            });
+        }
+        else if(parseInt(ev.target.value) > 0){
+            this.setState( {quantity: parseInt(ev.target.value)});
+            this.props.handleQuantityChange({
+                idx: this.props.idx,
+                quantity: parseInt(ev.target.value),
+            });
+        }
+    }
+    render() {
+        return (
+            <li class="list-group-item">
+                <div class='container' style={{hight: 50}}>
+                    <div class="row">
+                        <div class="col-6 text-left">
+                            {this.props.name}
+                        </div>
+                        <div class="col-3">
+                            <div>{this.props.price} USD</div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group align-self-bottom">
+                                <input type="text" class="form-control align-self-center" id="quantity" value={this.state.quantity} onChange={this.handleOnChange}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        );
+    }
+    
+}
