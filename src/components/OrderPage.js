@@ -45,12 +45,36 @@ class OrderPage extends Component {
             );
         }
         return (
-            <div>
-                <h6>######</h6>
-                {list}
-                <h6>Rate: {this.state.rate}</h6>
-                <h6>Deliver To: {this.state.dest}</h6>
-                <Link to={'/account/'+this.state.id+'/rate'}><button className='btn btn-secondary'>Rate</button></Link>
+            <div class="row">
+                <div class="col col-lg-7 margin-left margin-top">
+                    <h3>訂單內容</h3>
+                    <ul class='list-group list-group-flush margin-top'>
+                        <li class="list-group-item">
+                            <div class="margin-top">
+                                <div class='container'>
+                                    <div class="row">
+                                        <div class="col-lg-2">
+                                            <h6>第{this.state.id}號訂單</h6>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <h6>Rate:{this.state.rate}</h6>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h6>Deliver To: {this.state.dest}</h6>
+                                        </div>
+                                        <div class="col col-lg-3">
+                                        <Link to={'/account/'+this.state.id+'/rate'}><button className='btn btn-secondary'>Rate this oreder</button></Link>
+                                        </div>
+                    </div>
+                </div>
+            </div>
+            </li>  
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <ul class='list-group list-group-flush'>
+                    </ul>
+                </div>
             </div>
         );
     }

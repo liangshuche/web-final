@@ -141,12 +141,13 @@ class ShopPage extends Component {
 
         return (
             <div class="row">
-                <div class="col-md-6 col-md-push-9">
-                    <ul class='list-group list-group-flush center' id="food_card">
+                <br/>
+                <div class="col col-lg-7 margin-left margin-top">
+                    <ul class='list-group list-group-flush' id="food_card">
                         {_foods}   
                     </ul>
                 </div>
-                <div class="col-md-6 col-md-pull-3">
+                <div class="col-lg-4">
                     <ul class='list-group list-group-flush'>
                         {info}
                     </ul>
@@ -173,13 +174,13 @@ class FoodListItem extends Component {
             <li class="list-group-item">
                 <div class='container'>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-lg-6">
                             <h6>{this.props.name}</h6>
                         </div>
-                        <div class="col-md-auto">
+                        <div class="col-lg-3">
                             <h6>{this.props.price}</h6>
                         </div>
-                        <div class="col col-lg-2">
+                        <div class="col col-lg-3">
                             <a class="btn" onClick={this.handleOnClick}>+</a>
                         </div>
                     </div>
@@ -207,20 +208,23 @@ class FoodOrderItem extends Component {
             quantity: parseInt(ev.target.value),
         });
     }
-
+    
   
     render() {
         return (
             <li class="list-group-item">
-                <div class='container'>
+
                     <div class="row">
-                        <div class="col-6 food-name align-middle">
+                        <div class="col-1">
+                            <a class="btn" onClick={this.handleOnClick}>x </a>
+                        </div>
+                        <div class="col-4 food-name align-middle">
                             <h6>{this.props.name}</h6>
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             <h6>{this.props.price}</h6>
                         </div>
-                        <div class="col-3">
+                        <div class="col-4">
                             <div class="form-group">
                                 <select class="form-control" value={this.state.quantity} onChange={this.handleOnChange}>
                                     <option value='1'>1</option>
@@ -232,7 +236,7 @@ class FoodOrderItem extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                
             </li>
         );
     }

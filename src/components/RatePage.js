@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+
 class RatePage extends Component {
     constructor(props) {
         super(props);
@@ -28,22 +30,49 @@ class RatePage extends Component {
                 console.log(err);
             });
 
-        this.handleMinus = this.handleMinus.bind(this);
-        this.handlePlus = this.handlePlus.bind(this);
+        this.handle1 = this.handle1.bind(this);
+        this.handle2 = this.handle2.bind(this);
+        this.handle3 = this.handle3.bind(this);
+        this.handle4 = this.handle4.bind(this);
+        this.handle5 = this.handle5.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    handleMinus() {
-        if(this.state.rate > 0){
+    handle1() {
+        if(this.state.rate >= 0){
             this.setState ({
-                rate: this.state.rate-1,
+                rate: this.state.rate=1,
             });
         }
     }
 
-    handlePlus() {
+    handle2() {
+        if(this.state.rate >= 0){
+            this.setState ({
+                rate: this.state.rate=2,
+            });
+        }
+    }
+
+    handle3() {
+        if(this.state.rate >= 0){
+            this.setState ({
+                rate: this.state.rate=3,
+            });
+        }
+    }
+
+    handle4() {
+        if(this.state.rate >= 0){
+            this.setState ({
+                rate: this.state.rate=4,
+            });
+        }
+    }
+
+    handle5() {
         if(this.state.rate < 5){
             this.setState ({
-                rate: this.state.rate+1,
+                rate: this.state.rate=5,
             });
         }
     }
@@ -74,12 +103,41 @@ class RatePage extends Component {
             return <Redirect push to={'/account/'+this.props.id}/>;
         }
         return (
-            <div>
-                <button className='btn btn-secondary' onClick={this.handleMinus}>-</button>
-                <span>{this.state.rate}</span>
-                <button className='btn btn-secondary' onClick={this.handlePlus}>+</button>
+            
+            <div class="center margin-top">
+                <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"/>
+                <h2 class="center">Rate Now</h2>
                 <br/>
-                <button className='btn btn-secondary' onClick={this.handleSubmit}>Submit</button>
+                    <div class="center">
+                        <button class="btn btn-star " onClick={this.handle1}>{
+                                                                                        this.state.rate>=1
+                                                                                        ? <i class="fas fa-star"></i>
+                                                                                        : <i class="far fa-star"></i>
+                                                                                    }</button>
+                        <button class="btn btn-star margin-minileft" onClick={this.handle2}>{
+                                                                                        this.state.rate>=2
+                                                                                        ? <i class="fa fa-star"></i>
+                                                                                        : <i class="far fa-star"></i>
+                                                                                    }</button>
+                        <button class="btn btn-star margin-minileft" onClick={this.handle3}>{
+                                                                                        this.state.rate>=3
+                                                                                        ? <i class="fa fa-star"></i>
+                                                                                        : <i class="far fa-star"></i>
+                                                                                    }</button>
+                        <button class="btn btn-star margin-minileft" onClick={this.handle4}>{
+                                                                                        this.state.rate>=4
+                                                                                        ? <i class="fa fa-star"></i>
+                                                                                        : <i class="far fa-star"></i>
+                                                                                    }</button>
+                        <button class="btn btn-star margin-minileft" onClick={this.handle5}>{
+                                                                                        this.state.rate>=5
+                                                                                        ? <i class="fa fa-star"></i>
+                                                                                        : <i class="far fa-star"></i>
+                                                                                    }</button>
+
+                </div>                                                       
+                <br/>
+                <Link to={'/account/'}><button className='btn btn-secondary center' onClick={this.handleSubmit}>Submit</button></Link>
             </div>
         );
     }
