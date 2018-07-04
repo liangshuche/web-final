@@ -204,10 +204,10 @@ class FoodListItem extends Component {
                         <div class="col-lg-6 ">
                             <h6 class="align-center" style={{marginTop:10}}>{this.props.name}</h6>
                         </div>
-                        <div class="col-lg-3">
-                            <h6>{this.props.price}</h6>
+                        <div class="col-lg-4">
+                            <h6 class="align-center" style={{marginTop:10}}>{this.props.price}</h6>
                         </div>
-                        <div class="col col-lg-3">
+                        <div class="col col-lg-2">
                             <a class="btn" onClick={this.handleOnClick}>+</a>
                         </div>
                     </div>
@@ -246,18 +246,17 @@ class FoodOrderItem extends Component {
     render() {
         return (
             <li class="list-group-item">
-
-                <div class="row">
-                    <div class="col-2">
+                <div class="row" style={{paddingLeft:0}}>
+                    <div class="col-0">
                         <h6 class="btn" onClick={this.handleOnClick}>x</h6> 
                     </div>
                     <div class="col-4">
-                        <h6>{this.props.name}</h6>
+                        <h7 class="align-center" style={{marginTop:10}}>{this.props.name}</h7>
                     </div>
-                    <div class="col-3">
-                        <h6>{this.props.price}</h6>
+                    <div class="col-2">
+                        <h7>{this.props.price}</h7>
                     </div>
-                    <div class="col-3">
+                    <div class="col-4">
                         <div class="form-group">
                             <select class="form-control" value={this.state.quantity} onChange={this.handleOnChange}>
                                 <option value='1'>1</option>
