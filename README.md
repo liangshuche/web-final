@@ -1,10 +1,12 @@
-# Web Programming HW5: React Blog App
+# Web Programming Final: React Food Ordering App
 
 <br>
-A Blog App powered by React, React-router and Socket.IO with an Express backend server.
+A food-ordering webpage powered by React, React-router with an Express backend server.
+Supporting Chatbot and Online Messenger.
 <br>
 Using MongoDB as Database.
 <br>
+  
 
 
 ## Usage
@@ -20,8 +22,10 @@ Using MongoDB as Database.
 
 ## Features
 - BootStrap UI Framework
-- Requires User Login To Post
+- Requires User Login To Place Order
 - Account Registration 
+- Place Multi-Item Order
+- Rate Orders
 - Database Served By mLab
 - ES6 Promise Implemented
 <br>
