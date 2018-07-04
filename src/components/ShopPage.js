@@ -157,6 +157,20 @@ class ShopPage extends Component {
                 <br/>
                 <div class="col col-lg-7 margin-left margin-top">
                     <ul class='list-group list-group-flush' id="food_card">
+                    <li class="list-group-item">
+                        <div class='container'>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h4>品項</h4>
+                                </div>
+                                <div class="col-lg-3">
+                                    <h4>金額</h4>
+                                </div>
+                                <div class="col col-lg-3">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                         {_foods}   
                     </ul>
                 </div>
@@ -187,8 +201,8 @@ class FoodListItem extends Component {
             <li class="list-group-item">
                 <div class='container'>
                     <div class="row">
-                        <div class="col-lg-6">
-                            <h6>{this.props.name}</h6>
+                        <div class="col-lg-6 ">
+                            <h6 class="align-center" style={{marginTop:10}}>{this.props.name}</h6>
                         </div>
                         <div class="col-lg-3">
                             <h6>{this.props.price}</h6>
