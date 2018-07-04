@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 import axios from 'axios';
+//import './Messenger.css';
 import './Style.css';
-
 const $ = require('jquery');
 
 class MessengerPage extends Component {
@@ -20,7 +20,7 @@ class MessengerPage extends Component {
                 this.setState({ log: res.data.log });
             })
             .then(() => {
-                $('.chat-log').animate({ scrollTop: this.state.log.length * 80 }, 20);
+                $('.chat-log').animate({ scrollTop: this.state.log.length * 80 }, 200);
             })
             .catch(function (err) {
                 console.log(err);
@@ -33,9 +33,7 @@ class MessengerPage extends Component {
         this.socket = io();
         this.socket.on('RECEIVE_MESSAGE', (data) => {
             loadMessage(data);
-            $('.chat-log').scrollTop(100000);
-
-            //$('.chat-log').animate({ scrollTop: this.state.log.length * 300 }, 20);
+            $('.chat-log').animate({ scrollTop: this.state.log.length * 80 }, 200);
         });
 
         this.sendMessage = this.sendMessage.bind(this);
@@ -51,8 +49,7 @@ class MessengerPage extends Component {
                     message: this.state.message.trim(),
                 });
                 this.setState({ message: '' });
-                $('.chat-log').scrollTop(100000);
-                //$('.chat-log').animate({ scrollTop: $('.chat-log')[0].scrollHeight }, 20);
+                $('.chat-log').animate({ scrollTop: $('.chat-log')[0].scrollHeight }, 1000);
                 $('.input-box').css('height', '45px');
             }
         }
@@ -83,7 +80,7 @@ class MessengerPage extends Component {
                         <span className="Message-to-box">
                             {this.state.log[i].message}
                         </span>
-                        <p className="time-str">{this.state.log[i].time+' '+this.state.log[i].from}</p>
+                        <p className="time-str">{this.state.log[i].from+' '+this.state.log[i].time}</p>
                     </div>
                 );
             } else if (this.state.log[i].from === 'Bot'){

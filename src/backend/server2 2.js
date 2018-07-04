@@ -359,7 +359,7 @@ io.on('connection', (socket) => {
         console.log(data.message);
         
         if(data.message.includes('hi')){
-            message_bot = 'hihi';
+            message_bot = '找餐廳？ EEat!';
             Promise.all(promises).then(
             io.emit('RECEIVE_MESSAGE', {
               time: time.toLocaleString('en', options),
@@ -370,21 +370,13 @@ io.on('connection', (socket) => {
 
         }
         else if (data.message.includes('account')) {
-            message_bot = 'delivered';
-            Promise.all(promises).then(
-            io.emit('RECEIVE_MESSAGE', {
-              time: time.toLocaleString('en', options),
-              from: 'Bot',
-              message: message_bot,
-            })
-
+            console.log(data.message);
         }
 
     else {
         
         switch (data.message){
             case '1':
-                message_bot = "";
 
 	        	var query = Shop.find();
 	        	var promise = (

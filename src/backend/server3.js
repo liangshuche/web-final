@@ -27,11 +27,6 @@ var connection = mongoose.connection;
 connection.on('error', console.error.bind(console, 'connection error:'));
 connection.once('open', function(callback) {
     console.log('connection open');
-    // connection.db.collection('shops', function(err, collection) {
-    //  	collection.find({}).toArray(function(err, data) {
-    //  		console.log(data);
-    //  	});
-    // });
 });
 
 var Schema = mongoose.Schema;
@@ -105,7 +100,7 @@ const server = app.listen(port, () => {
 
 const io = socket(server);
 
-const log = [];
+var log = [];
 
 
 app.get('/api/home', function(req, res){
@@ -208,18 +203,18 @@ app.get('/api/cart', function(req, res){
 
 });
 
-app.post('/api/checkout', function(req, res){
+app.get('/api/checkout', function(req, res){
     let thisorder = '';
-    var query = User.findOne({ account: req.body.account });
+    var query = User.findOne({ account: req.query.account });
     query.exec().then(function(account){
         thisorder = {
             id: (account.order.length+1).toString(),
-            content: req.body.cart,
+            content: account.cart,
             rate: 0,
-            deliver: req.body.deliver,
+            deliver: req.query.deliver,
         };
     }).then(function(){
-        var query_2 = User.findOneAndUpdate({account: req.body.account},{$set: {cart: []}, $push: {order: thisorder}}, {new: true});
+        var query_2 = User.findOneAndUpdate({account: req.query.account},{$set: {cart: []}, $push: {order: thisorder}}, {new: true});
         query_2.exec().then(function(){
             res.send( {success: true });
         }).catch(function(err){
@@ -299,7 +294,9 @@ app.get('/api/updaterate', function(req, res){
         });
     });
 });
+
 var logs = [];
+
 app.get('/api/messenger', function(req, res){
     /*
     var query = Message.find({}).sort({time: 1});
@@ -330,8 +327,6 @@ var options = {
 };
 
 
-
-
 io.on('connection', (socket) => {
     console.log(`Socket ID: ${socket.id} connected`);
     
@@ -343,9 +338,8 @@ io.on('connection', (socket) => {
             time: time.toLocaleString('en', options),
             message: data.message,
         });
-
-        io.emit('RECEIVE_MESSAGE', dataMessage);
         dataMessage.save().then(() => {
+            io.emit('RECEIVE_MESSAGE', dataMessage);
             logs.push(data.message);
         }); 
         var message_bot = "";
@@ -359,10 +353,12 @@ io.on('connection', (socket) => {
                 time: time.toLocaleString('en', options),
                 message: message_bot,
             })
-            io.emit('RECEIVE_MESSAGE', newMessage);
-            newMessage.save().then(() => {
-                logs.push(message_bot)
-            });
+            Promise.all(promises).then(
+                newMessage.save().then(() => {
+                    io.emit('RECEIVE_MESSAGE', newMessage);
+                    logs.push(message_bot)
+                })
+            );
 
         }
         else if (data.message.includes('account')) {
@@ -410,6 +406,9 @@ io.on('connection', (socket) => {
                 message_bot = '剩鼎泰豐，你吃不起';
                 break;
             case '3':
+                message_bot = '請問要找哪筆訂單？ 請輸入你的帳號來查詢(格式：account:[your account name])';
+                break;
+            case '4':
                 message_bot = '請問你有選擇障礙ㄇ 我來幫你選餐廳...';
                 ran = Math.floor(Math.random() * 6);
                 shops_ = ['鼎泰豐', 'pizza_hut', 'Starbucks', '麥當勞', '胖老爹', '吉野家'];
@@ -419,17 +418,16 @@ io.on('connection', (socket) => {
                 message_bot += '好了';
                 break;
             default:
-                message_bot = 'Welcome to EEat\n options: \n1:EE找餐廳 \n2:EE找美食 \n3:EE吃什麼\n';            
+                message_bot = 'Welcome to EEat\n options: \n1:EE找餐廳 \n2:EE找美食 \n3:EE找訂單 \n4:EE吃什麼\n';            
         }
         var newMessage = new Message({
             from: 'Bot',
             time: time.toLocaleString('en', options),
             message: message_bot,
         })
-        io.emit('RECEIVE_MESSAGE', newMessage);
         Promise.all(promises).then(
-
             newMessage.save().then(() => {
+                io.emit('RECEIVE_MESSAGE', newMessage);
                 logs.push(message_bot);
             })
         );
