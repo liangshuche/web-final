@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
+import deliver from '../img/deliver.png';
 
 class CartPage extends Component {
     constructor(props) {
@@ -108,40 +109,51 @@ class CartPage extends Component {
             food_orders.push(food_order);
             sum = sum + parseInt(this.state.cart[i].price)*parseInt(this.state.cart[i].quantity);
         }
+
+            
         return (
-            <div>
-                <div class="row">
-                    <div class='col-2'></div>
-                    <div class='col-8'>
-                        <ul class='list-group list-group-flush align-self-center'>
-                            {food_orders}
-                        </ul>
-                    </div>
-                    <div class='col-2'></div>
+            <div class="row">
+                <div class="col col-lg-7 margin-left margin-top">
+                    <h3>您的訂單</h3>
+                    <ul class='list-group list-group-flush margin-top'>
+                        {food_orders}  
+                    </ul>
                 </div>
-                
-                <div className='form-row fixed-bottom'>
-                    <div class="col-2"></div>
-                    <div class="form-group col-4">
-                        <select class="form-control" value={this.state.deliver} onChange={this.handleOnChange}>
-                            <option value='' disabled selected>請選擇取貨地點</option>
-                            <option value='電機一館'>電機一館</option>
-                            <option value='電機二館'>電機二館</option>
-                            <option value='博理館'>博理館</option>
-                            <option value='明達館'>明達館</option>
-                        </select>
-                    </div>
-                    <div class="col-2">
-                        <div class="alert alert-light text-right sum-box" style={{fontSize: 20, color: 'black', padding: 5}}>
-                            Total: {sum} USD
+                <div class="col-lg-4">
+                    <ul class='list-group list-group-flush'>
+                        <div class="card card-shop center">
+                            <img class="card-img-top center" src={deliver} style={{maxWidth:200}}  alt="no internet"/>
+                            <div class="card-body was-validated center">
+                                <select class="form-control" value={this.state.deliver} onChange={this.handleOnChange}>
+                                    <option value='' disabled selected>請選擇取貨地點</option>
+                                    <option value='電機一館'>電機一館</option>
+                                    <option value='電機二館'>電機二館</option>
+                                    <option value='博理館'>博理館</option>
+                                    <option value='明達館'>明達館</option>
+                                </select>
+                                <br/>
+                                <h8 class="card-title" id="user">確認付款後將會立即幫您派送餐點。</h8>
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <input type="checkbox" class="custom-control-input" id="customControlValidation1" required></input>
+                                    <label class="custom-control-label" for="customControlValidation1"><small>我已詳閱公開說明書。</small></label>
+                                    <div class="invalid-feedback"><small>母湯</small></div>
+                                </div>
+                                <a class="btn btn-danger btn-lg btn-block" onClick={this.handleOnClick} disabled={!this.state.deliver || this.state.cart.length === 0}>確認付款，共 {sum} USD</a> 
+                                <br/>
+                                <a class="btn btn-secondary btn-lg btn-block" onClick={this.handleClear} disabled={this.state.cart.length === 0}>刪除訂單</a> 
+                            </div>
                         </div>
-                    </div>
-                    <div class='col-4'>
-                        <button className='btn btn-secondary' onClick={this.handleOnClick} disabled={!this.state.deliver || this.state.cart.length === 0}>Check Out</button> 
-                        <button className='btn btn-danger' onClick={this.handleClear} disabled={this.state.cart.length === 0}>Clear Cart</button> 
-                    </div>
+                    </ul>
                 </div>
             </div>
+
+
+
+
+
+
+
+            
         );
     }
 }
