@@ -25,6 +25,7 @@ class MessengerPage extends Component {
                         hour: '2-digit',
                         minute: '2-digit',
                         hour12: false,
+                        timeZone: 'Asia/Taipei',
                     }),
                     message: '不知道吃什麼嗎?\n輸入 "hi bot" 讓我們幫助你'
                 };
