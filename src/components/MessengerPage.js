@@ -32,7 +32,7 @@ class MessengerPage extends Component {
                 this.setState({ log: res.data.log });
             })
             .then(() => {
-                $('.chat-log').animate({ scrollTop: this.state.log.length * 80 }, 20);
+                $('.chat-log').scrollTop(this.state.log.length * 1000);
             })
             .catch(function (err) {
                 console.log(err);
